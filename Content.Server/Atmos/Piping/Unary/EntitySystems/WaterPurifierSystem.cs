@@ -39,7 +39,7 @@ public sealed class WaterPurifierSystem : EntitySystem
             || !_nodeContainer.TryGetNode(entity.Owner, entity.Comp.Inlet, out PipeNode? inlet)
             || !_solution.ResolveSolution(entity.Owner, entity.Comp.SolutionId, ref entity.Comp.Solution, out var solution))
         {
-            _powerState.SetWorkingState(entity.Owner, false);  // I guess I could make a "TryToPurify" check instead of adding all these powerstates
+            _powerState.SetWorkingState(entity.Owner, false);  // I guess I could make a "TryToPurify" check instead of adding all these powerstates but idk how to write it.
             return;
         }
 
@@ -50,21 +50,20 @@ public sealed class WaterPurifierSystem : EntitySystem
             return;
         }
 
-        // how much water vapor is in the pipe, if it's equal or lower than 0 stops
-        var waterMolesAvailable = inlet.Air.GetMoles(Gas.WaterVapor);
-        if (waterMolesAvailable <= 0)
+        // how many moles of gas are in the pipe, if it's equal or lower than 0 stops
+        var gasMolesAvailable = inlet.Air.GetMoles(entity.Comp.GastoCondense);
+        if (gasMolesAvailable <= 0)
         {
             _powerState.SetWorkingState(entity.Owner, false);
             return;
         }
 
-        var gasToReagentPerSecond = entity.Comp.GasToReagentPerSecond;
-        var waterMolesToConvert = MathF.Min(gasToReagentPerSecond * args.dt, waterMolesAvailable);
-        if (waterMolesToConvert <= 0)
+        var gasMolesToConvert = MathF.Min(gasMolesAvailable / entity.Comp.GasMolesPerUReagent, gasMolesAvailable);
+        if (gasMolesToConvert <= 0)
             return;
 
         // Limits the amount added to the available space in the container
-        var amount = FixedPoint2.Min(waterMolesToConvert / 2, solution.AvailableVolume);
+        var amount = FixedPoint2.Min(gasMolesToConvert, solution.AvailableVolume);
         if (amount <= 0)
             return;
 
@@ -76,7 +75,7 @@ public sealed class WaterPurifierSystem : EntitySystem
         solution.AddReagent(waterReagent, amount * .9f);
 
         // moles of gas to remove after adding the water reagent
-        inlet.Air.AdjustMoles(entity.Comp.GastoCondense, -waterMolesToConvert * 1.1f);
+        inlet.Air.AdjustMoles(entity.Comp.GastoCondense, -gasMolesToConvert * 1.1f);
         _powerState.SetWorkingState(entity.Owner, true);
         _solution.UpdateChemicals(entity.Comp.Solution.Value);
     }

@@ -1,15 +1,13 @@
 - type: entity
   parent: [ BaseMachinePowered, SmallConstructibleMachine ]
-  id: BaseWaterPurifier
+  id: BaseCondenser
   name: Water purifier
   description: Purifies water vapor into water
   placement:
     mode: SnapgridCenter
   components:
   - type: Sprite
-    sprite: Structures/Piping/Atmospherics/condenser.rsi
-    snapCardinals: true
-    granularLayersRendering: true
+    sprite: _Persistence14/Structures/Piping/Atmospherics/condenser.rsi
     layers:
     - state: off
       map: [ "enum.PowerDeviceVisualLayers.Powered" ]
@@ -18,9 +16,6 @@
     - state: pipe
       map: [ "enum.PipeVisualLayers.Pipe" ]
       renderingStrategy: Default
-    - state: fill-1
-      map: ["enum.SolutionContainerLayers.Fill"]
-      visible: false
     - state: trans
   - type: Appearance
   - type: GenericVisualizer
@@ -29,9 +24,6 @@
         enum.PowerDeviceVisualLayers.Powered:
           True: { state: on }
           False: { state: off }
-  - type: SolutionContainerVisuals
-    maxFillLevels: 7
-    fillBaseName: fill-
   - type: PipeColorVisuals
   - type: Rotatable
   - type: AtmosPipeColor
@@ -43,6 +35,8 @@
         Tertiary: Structures/Piping/Atmospherics/condenser_alt2.rsi
   - type: AtmosDevice
   - type: PipeRestrictOverlap
+  - type: WiresPanel
+  - type: WiresVisuals
   - type: ApcPowerReceiver
     powerLoad: 50
   - type: PowerState
