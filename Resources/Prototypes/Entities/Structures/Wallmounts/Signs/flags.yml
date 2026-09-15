@@ -13,7 +13,11 @@
   description: Some piece of white cloth. Definitely not the flag of France.
   components:
   - type: Sprite
-    state: blank_flag
+    layers:
+    - state: blank_flag
+      map: [ "Color" ]
+  - type: IFFVisualizer
+    layers: [ "Color" ]
 
 - type: entity
   parent: BaseFlag
