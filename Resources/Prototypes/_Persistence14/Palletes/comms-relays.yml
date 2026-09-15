@@ -1,8 +1,0 @@
-- type: palette
-  id: GreeblesPallete
-  name: Grebbles pallete
-  colors:
-    neutrallight: "#E6E6E6"
-    neutralmedium: "#B3B3B3"
-    neutraldark: "#999999"
-    neutralblack: "#808080"
