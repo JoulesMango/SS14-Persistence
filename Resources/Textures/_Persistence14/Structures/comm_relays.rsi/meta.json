@@ -1,0 +1,68 @@
+{
+  "version": 1,
+  "license": "CC-BY-SA-3.0",
+  "copyright": "made by JoulesMango (github) for PS14",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "strut"
+    },
+    {
+      "name": "sensor"
+    },
+    {
+      "name": "relay"
+    },
+    {
+      "name": "flash",
+      "delays":[
+        [
+          0.2,
+          2
+        ]
+      ]
+    },
+    {
+      "name": "flash1",
+      "delays":[
+        [
+          2,
+          0.2
+        ]
+      ]
+    },
+    {
+      "name": "led"
+    },
+    {
+      "name": "plate_right"
+    },
+    {
+      "name": "plate_left"
+    },
+    {
+      "name": "sonar_right"
+    },
+    {
+      "name": "sonar_left"
+    },
+    {
+      "name": "radar_right"
+    },
+    {
+      "name": "radar_left"
+    },
+    {
+      "name": "strip"
+    },
+    {
+      "name": "light_right"
+    },
+    {
+      "name": "light_left"
+    }
+  ]
+}
