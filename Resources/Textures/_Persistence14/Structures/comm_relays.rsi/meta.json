@@ -8,25 +8,52 @@
   },
   "states": [
     {
-      "name": "strut"
+      "name": "2_plates"
     },
     {
-      "name": "sensor"
+      "name": "base"
     },
     {
-      "name": "relay"
+      "name": "box"
     },
     {
-      "name": "flash",
+      "name": "bridge_plate"
+    },
+    {
+      "name": "comms_radar",
       "delays":[
         [
-          0.2,
-          2
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1
         ]
       ]
     },
     {
-      "name": "flash1",
+      "name": "dish"
+    },
+    {
+      "name": "extension"
+    },
+    {
+      "name": "flash",
       "delays":[
         [
           2,
@@ -35,34 +62,71 @@
       ]
     },
     {
+      "name": "industrial_strut"
+    },
+    {
       "name": "led"
     },
     {
-      "name": "plate_right"
+      "name": "light"
     },
     {
-      "name": "plate_left"
+      "name": "long_plate"
     },
     {
-      "name": "sonar_right"
+      "name": "omni_antenna"
     },
     {
-      "name": "sonar_left"
+      "name": "parabolic"
     },
     {
-      "name": "radar_right"
+      "name": "pole"
     },
     {
-      "name": "radar_left"
+      "name": "plate"
+    },
+    {
+      "name": "relay"
+    },
+    {
+      "name": "sonar"
+    },
+    {
+      "name": "strip_side"
     },
     {
       "name": "strip"
     },
     {
-      "name": "light_right"
+      "name": "strut"
     },
     {
-      "name": "light_left"
+      "name": "top_sweeper",
+      "delays":[
+        [
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1,
+          0.1          
+        ]
+      ]
+    },
+    {
+      "name": "ui"
+    },
+    {
+      "name": "wide_strip"
+    },
+    {
+      "name": "wideplate"
     }
   ]
 }

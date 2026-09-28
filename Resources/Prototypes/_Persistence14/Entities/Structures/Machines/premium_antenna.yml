@@ -1,0 +1,130 @@
+- type: entity
+  parent: BaseWallmount
+  id: PremiumAntenna
+  name: Antenna premium
+  description: test
+  components:
+  - type: Sprite
+    sprite: _Persistence14/Structures/comm_relays.rsi
+    drawdepth: FloorObjects
+    layers:
+    # layer 1
+    - state: base
+    - state: industrial_strut
+      offset: 0, 1
+      color: "#808080"
+    - state: strip
+      offset: 0, 1
+      map: [ "plating1" ]
+    - state: ui
+      offset: 0, -0.7
+
+    # layer 2
+    - state: industrial_strut
+      offset: 0, 2
+      color: "#808080"
+    - state: industrial_strut
+      offset: -0.15, 2
+      color: "#808080"
+      map: [ "greebles2_right"]
+    - state: industrial_strut
+      offset: 0.15, 2
+      color: "#808080"
+      map: [ "greebles2_left"]
+      rotation: 180
+
+    # layer 3
+    - state: strut
+      offset: 0, 3
+    - state: extension
+      offset: -0.15, 3
+    - state: extension
+      offset: 0.15, 3
+      rotation: 180
+    - state: strut
+      offset: 0, 3
+      map: [ "platingtop" ]
+
+    - state: relay #left bottom
+      offset: -0.55, 2.7
+      map: [ "commsLeftBottom" ]
+    - state: relay #right bottom
+      offset: 0.55, 2.7
+      rotation: 180
+      map: [ "commsRightBottom" ]
+    - state: relay #left top
+      offset: -0.55, 3.32
+      map: [ "commsLeftTop" ]
+    - state: relay #right top
+      offset: 0.55, 3.32
+      rotation: 180
+      map: [ "commsRightTop" ]
+
+    # layer 4
+    - state: pole
+      offset: 0, 4
+    - state: led
+      offset: 0, 4.4
+      color: "#DE3A3A"
+      shader: unshaded
+    - state: top_sweeper
+      offset: 0, 3.75
+      color: "#464545"
+    - state: flash
+      offset: 0, 4.4
+      shader: unshaded
+      color: "#DE3A3A"
+  - type: IFFVisualizer
+    layers:
+    - relay
+  - type: RandomSprite
+    getAllGroups: true
+    available:
+      - plating1:
+          2_plates: PremiumGreyPallete
+          long_plate: PremiumGreyPallete
+          strip: PremiumGreyPallete
+          wide_strip: PremiumGreyPallete
+          bridge_plate: PremiumGreyPallete
+
+      - greebles2_left:
+          plate: PremiumGreyPallete
+          wideplate: PremiumGreyPallete
+          sonar: PremiumGreyPallete
+          wide_strip: PremiumGreyPallete
+          box: PremiumGreyPallete
+      - greebles2_right:
+          plate: PremiumGreyPallete
+          wideplate: PremiumGreyPallete
+          wide_strip: PremiumGreyPallete
+          box: PremiumGreyPallete
+
+      - platingtop:
+          2_plates: PremiumGreyPallete
+          long_plate: PremiumGreyPallete
+          strip: PremiumGreyPallete
+          bridge_plate: PremiumGreyPallete
+      - commsLeftBottom:
+          relay: PremiumGreyPallete
+          dish: PremiumGreyPallete
+          comms_radar: PremiumGreyPallete
+          omni_antenna: PremiumGreyPallete
+          parabolic: PremiumGreyPallete
+      - commsRightBottom:
+          relay: PremiumGreyPallete
+          dish: PremiumGreyPallete
+          comms_radar: PremiumGreyPallete
+          omni_antenna: PremiumGreyPallete
+          parabolic: PremiumGreyPallete
+      - commsLeftTop:
+          relay: PremiumGreyPallete
+          dish: PremiumGreyPallete
+          comms_radar: PremiumGreyPallete
+          omni_antenna: PremiumGreyPallete
+          parabolic: PremiumGreyPallete
+      - commsRightTop:
+          relay: PremiumGreyPallete
+          dish: PremiumGreyPallete
+          comms_radar: PremiumGreyPallete
+          omni_antenna: PremiumGreyPallete
+          parabolic: PremiumGreyPallete
