@@ -4,6 +4,73 @@
   name: Antenna premium
   description: test
   components:
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape: !type:PhysShapeAabb
+          bounds: "-0.2,-0.25,0.2,4"
+        density: 190
+        layer:
+        - MachineLayer
+      fix2:
+        shape: !type:PhysShapeAabb
+          bounds: "-0.5,2.5,0.5,3.5"
+        density: 190
+        layer:
+        - MachineLayer
+  - type: Physics
+    canCollide: true
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.PowerDeviceVisuals.Powered:
+        topSweeper:
+          True: { visible: true }
+          False: { visible: false }
+        flash:
+          True: { visible: true }
+          False: { visible: false }
+        led:
+          True: { visible: true }
+          False: { visible: false }
+  - type: ApcPowerReceiver
+    powerLoad: 5000 
+  - type: AmbientOnPowered
+  - type: AmbientSound
+    volume: -9
+    range: 5
+    enabled: false
+    sound:
+      path: /Audio/Ambience/Objects/server_fans.ogg
+  - type: WiresVisuals
+  - type: WiresPanel
+  - type: TelecomServer
+    maxRange: 1536
+  - type: ExtensionCableReceiver
+    receptionRange: 5
+  - type: Damageable
+    damageContainer: StructuralInorganic
+    damageModifierSet: StructuralMetallic
+  - type: Destructible
+    thresholds:
+    - trigger:
+        !type:DamageTrigger
+        damage: 200
+      behaviors:
+        - !type:DoActsBehavior
+          acts: [ "Destruction" ]
+    - trigger:
+        !type:DamageTrigger
+        damage: 100
+      behaviors:
+      - !type:DoActsBehavior
+        acts: ["Destruction"]
+      - !type:PlaySoundBehavior
+        sound:
+          collection: MetalBreak
+  - type: EncryptionKeyHolder
+    keysExtractionMethod: Prying
+    keySlots: 10
   - type: Sprite
     sprite: _Persistence14/Structures/comm_relays.rsi
     drawdepth: FloorObjects
@@ -16,8 +83,10 @@
     - state: strip
       offset: 0, 1
       map: [ "plating1" ]
+      scale: 1.5, 1.5
     - state: ui
       offset: 0, -0.7
+
 
     # layer 2
     - state: industrial_strut
@@ -67,13 +136,16 @@
       offset: 0, 4.4
       color: "#DE3A3A"
       shader: unshaded
+      map: [ "led" ]
     - state: top_sweeper
       offset: 0, 3.75
       color: "#464545"
+      map: [ "topSweeper" ]
     - state: flash
       offset: 0, 4.4
       shader: unshaded
       color: "#DE3A3A"
+      map: [ "flash" ]
   - type: IFFVisualizer
     layers:
     - relay
