@@ -1,15 +1,15 @@
 - type: entity
-  id: Acordeon
+  id: Accordion
   parent: BaseStorageItem
   name: Accordion file organizer
-  description: Huh, the blueprint is bugged, maybe the next one you print has the color you need.  
+  description: Huh, the blueprint is bugged, maybe the next one you print is the color you need.  
   components:
   - type: Item
     size: Normal
     shape:
     - 0,0,1,1
   - type: Sprite
-    sprite: _Persistence14/Objects/Storage/accordeon.rsi
+    sprite: _Persistence14/Objects/Storage/accordion.rsi
     layers:
     - state: base
     - state: handle

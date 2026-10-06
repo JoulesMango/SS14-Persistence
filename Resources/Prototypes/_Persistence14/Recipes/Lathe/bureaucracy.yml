@@ -1,7 +1,7 @@
 - type: latheRecipe
   id: LRAcordeonOrganizer
   completetime: 3
-  result: Acordeon
+  result: Accordion
   categories:
   - Bureaucracy
   materials:
