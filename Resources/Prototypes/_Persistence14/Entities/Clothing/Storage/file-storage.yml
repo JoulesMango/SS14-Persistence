@@ -1,0 +1,84 @@
+- type: entity
+  id: Acordeon
+  parent: BaseStorageItem
+  name: Acordeon file organizer
+  components:
+  - type: Sprite
+    sprite: _Persistence14/Objects/Storage/accordeon.rsi
+    layers:
+    - state: base
+    - state: handle
+      map: ["handles"]
+    - state: closed
+      map: ["closeLayer"]
+    - state: open
+      map: ["openLayer"]
+      visible: false
+    - state: inside
+      map: ["insideLayer"]
+      visible: false
+    - state: fill-file6
+      map: [ "Fill6" ]
+      visible: false
+    - state: fill-file5
+      map: [ "Fill5" ]
+      visible: false
+    - state: fill-file4
+      map: [ "Fill4" ]
+      visible: false
+    - state: fill-file3
+      map: [ "Fill3" ]
+      visible: false
+    - state: fill-file2
+      map: [ "Fill2" ]
+      visible: false
+    - state: fill-file1
+      map: [ "Fill1" ]
+      visible: false
+  - type: Storage
+    maxItemSize: Huge
+    grid:
+    - 0,0,5,1
+    whitelist:
+      tags:
+      - Folder
+  - type: Clothing
+    quickEquip: false
+    sprite: _Persistence14/Objects/Storage/accordeon.rsi
+    slots: [ belt, pocket ]
+  - type: ItemCounter
+    count:
+      components: [ Item ]
+    composite: true
+    layerStates:
+    - Fill1
+    - Fill2
+    - Fill3
+    - Fill4
+    - Fill5
+    - Fill6
+  - type: Appearance
+  - type: GenericVisualizer
+    visuals:
+      enum.SharedBagOpenVisuals.BagState:
+        closeLayer:
+          Open: { visible: true }
+          Closed: { visible: true }
+        openLayer:
+          Open: { visible: true }
+          Closed: { visible: false }
+        insideLayer:
+          Open: { visible: true }
+          Closed: { visible: false }
+  - type: RandomSprite
+    getAllGroups: true
+    available:
+      - closeLayer:
+          closed: Departmental
+          base: Departmental
+      - handles:
+          handle: GreyPalette
+          handle2: GreyPalette
+  - type: PhysicalComposition
+    materialComposition:
+      Plastic: 540

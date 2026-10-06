@@ -1,0 +1,7 @@
+﻿- type: palette
+  id: GreyPalette
+  name: Grey palette
+  colors:    
+    neutralmedium: "#B3B3B3"
+    neutraldark: "#999999"
+    neutralblack: "#808080"

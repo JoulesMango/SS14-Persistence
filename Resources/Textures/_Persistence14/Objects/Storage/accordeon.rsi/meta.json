@@ -1,0 +1,60 @@
+﻿{
+  "version": 1,
+  "license": "CC-BY-NC-SA-3.0",
+  "copyright": "made by JoulesMango (github) for PS14",
+  "size": {
+    "x": 32,
+    "y": 32
+  },
+  "states": [
+    {
+      "name": "base"
+    },
+    {
+      "name": "closed"
+    },
+    {
+      "name": "equipped-BELT",
+      "directions": 4
+    },
+    {
+      "name": "inside"
+    },
+
+    {
+      "name": "fill-file1"
+    },
+    {
+      "name": "fill-file2"
+    },
+    {
+      "name": "fill-file3"
+    },
+    {
+      "name": "fill-file4"
+    },
+    {
+      "name": "fill-file5"
+    },
+    {
+      "name": "fill-file6"
+    },
+    {
+      "name": "handle"
+    },
+    {
+      "name": "handle2"
+    },
+    {
+      "name": "inhand-left",
+      "directions": 4
+    },
+    {
+      "name": "inhand-right",
+      "directions": 4
+    },
+    {
+      "name": "open"
+    }
+  ]
+}

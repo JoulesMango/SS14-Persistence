@@ -1,0 +1,8 @@
+- type: latheRecipe
+  id: LRAcordeonOrganizer
+  completetime: 3
+  result: Acordeon
+  categories:
+  - Bureaucracy
+  materials:
+    Plastic: 600
