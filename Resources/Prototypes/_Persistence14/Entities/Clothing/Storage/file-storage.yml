@@ -1,8 +1,13 @@
 - type: entity
   id: Acordeon
   parent: BaseStorageItem
-  name: Acordeon file organizer
+  name: Accordion file organizer
+  description: Huh, the blueprint is bugged, maybe the next one you print has the color you need.  
   components:
+  - type: Item
+    size: Normal
+    shape:
+    - 0,0,1,1
   - type: Sprite
     sprite: _Persistence14/Objects/Storage/accordeon.rsi
     layers:
@@ -42,6 +47,7 @@
     whitelist:
       tags:
       - Folder
+      - Document
   - type: Clothing
     quickEquip: false
     sprite: _Persistence14/Objects/Storage/accordeon.rsi
