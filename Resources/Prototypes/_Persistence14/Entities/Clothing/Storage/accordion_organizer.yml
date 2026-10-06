@@ -19,9 +19,6 @@
     - state: open
       map: ["openLayer"]
       visible: false
-    - state: inside
-      map: ["insideLayer"]
-      visible: false
     - state: fill-file6
       map: [ "Fill6" ]
       visible: false
@@ -41,7 +38,7 @@
       map: [ "Fill1" ]
       visible: false
   - type: Storage
-    maxItemSize: Huge
+    maxItemSize: Normal
     grid:
     - 0,0,5,1
     whitelist:
@@ -71,9 +68,6 @@
           Open: { visible: true }
           Closed: { visible: true }
         openLayer:
-          Open: { visible: true }
-          Closed: { visible: false }
-        insideLayer:
           Open: { visible: true }
           Closed: { visible: false }
   - type: RandomSprite
