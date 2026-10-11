@@ -1,5 +1,9 @@
+using System.Linq;
+using Content.Shared.Station.Components;
 using Content.Shared.Shuttles.Components;
 using JetBrains.Annotations;
+using Robust.Shared.Physics;
+using Robust.Shared.Physics.Components;
 
 namespace Content.Shared.Shuttles.Systems;
 
@@ -30,17 +34,36 @@ public abstract partial class SharedShuttleSystem
     {
         var entName = MetaData(gridUid).EntityName;
 
-        if (self)
-        {
-            return entName;
-        }
+        var baseName = string.IsNullOrEmpty(entName) ? Loc.GetString("shuttle-console-unknown") : entName;
 
-        if (Resolve(gridUid, ref component, false) && (component.Flags & (IFFFlags.HideLabel | IFFFlags.Hide)) != 0x0)
+        Resolve(gridUid, ref component, false);
+
+        if (!self && component != null && (component.Flags & (IFFFlags.HideLabel | IFFFlags.Hide)) != 0x0)
         {
             return null;
         }
 
-        return string.IsNullOrEmpty(entName) ? Loc.GetString("shuttle-console-unknown") : entName;
+        if (component == null && TryComp(gridUid, out PhysicsComponent? physics) && physics.BodyType == BodyType.Dynamic && physics.Mass < 10f) // Persistence 14
+        {
+            return null;
+        }
+
+        // Default to showing faction tags when there is no IFF component yet.
+        // This keeps claimed/owned grids readable on radar without extra setup.
+        var showFactionTag = component?.ShowFactionTag ?? true;
+        if (showFactionTag)
+        {
+            var station = Station.GetOwningStation(gridUid);
+            if (station != null && TryComp<StationDataComponent>(station, out var stationData))
+            {
+            // Prefix format mirrors ID cards for quick visual consistency.
+                var tag = stationData.GetResolvedFactionTag(MetaData(station.Value).EntityName);
+                if (!string.IsNullOrEmpty(tag))
+                    return $"[{tag}] {baseName}";
+            }
+        }
+
+        return baseName;
     }
 
     /// <summary>
@@ -87,18 +110,16 @@ public abstract partial class SharedShuttleSystem
         UpdateIFFInterfaces(gridUid, component);
     }
 
-    public bool MatchesSortTag(IFFComponent? component, IFFSortMode sortMode)
+    public bool MatchesSortTags(IFFComponent? component, IFFSortMode sortMode)
     {
         if (sortMode == IFFSortMode.None)
-            return true;
+            return false;
 
-        if (component == null)
-            return sortMode == IFFSortMode.Ship;
-
-        var tag = sortMode == IFFSortMode.Station
-            ? IFFComponent.SortTagStation
-            : IFFComponent.SortTagShip;
-
-        return component.HasSortTag(tag);
+        return component?.Designation switch
+        {
+            IFFDesignation.Station => sortMode.HasFlag(IFFSortMode.Station),
+            IFFDesignation.Ship => sortMode.HasFlag(IFFSortMode.Ship),
+            _ => sortMode.HasFlag(IFFSortMode.Other),
+        };
     }
 }

@@ -440,6 +440,14 @@ public abstract partial class SharedSolutionContainerSystem : EntitySystem
         UpdateChemicals(soln);
     }
 
+    // Start Funky: Footprints & Stains
+    public void BurnFlammableReagents(Entity<SolutionComponent> soln, float fraction)
+    {
+        soln.Comp.Solution.BurnFlammableReagents(fraction, PrototypeManager);
+        UpdateChemicals(soln);
+    }
+    // End Funky
+
     /// <summary>
     ///     Sets the capacity (maximum volume) of a solution to a new value.
     /// </summary>
@@ -816,7 +824,7 @@ public abstract partial class SharedSolutionContainerSystem : EntitySystem
             return;
 
         var heatCap = solution.GetHeatCapacity(PrototypeManager);
-        var deltaT = thermalEnergy / heatCap;
+        var deltaT = heatCap == 0 ? 0 : thermalEnergy / heatCap; // Persistence: prevent infinite temperature solutions by adding heatCap == 0 ? 0 :
         solution.Temperature = Math.Clamp(solution.Temperature + deltaT, min, max);
         UpdateChemicals(soln);
     }

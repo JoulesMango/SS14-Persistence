@@ -1,7 +1,9 @@
 using Content.Server.Administration.Logs;
+using Content.Server.Chat.Managers; // Persistence: Chat stacking from RMC14 - pull/7587
 using Content.Server.Chat.Systems;
 using Content.Server.Power.Components;
 using Content.Server.Station.Systems;
+using Content.Shared._RMC14.Chat; // Persistence: Chat stacking from RMC14 - pull/7587
 using Content.Shared.CCVar;
 using Content.Shared.Chat;
 using Content.Shared.Database;
@@ -37,6 +39,7 @@ public sealed class RadioSystem : EntitySystem
     [Dependency] private readonly HeadsetSystem _headset = default!;
     [Dependency] private readonly StationSystem _station = default!;
     [Dependency] private readonly SharedTransformSystem _xform = default!;
+    [Dependency] private readonly IChatManager _chatManager = default!; // Persistence: Chat stacking from RMC14 - pull/7587
     // set used to prevent radio feedback loops.
     private readonly HashSet<string> _messages = new();
 
@@ -92,7 +95,7 @@ public sealed class RadioSystem : EntitySystem
     /// </summary>
     /// <param name="messageSource">Entity that spoke the message</param>
     /// <param name="radioSource">Entity that picked up the message and will send it, e.g. headset</param>
-    public void SendRadioMessage(EntityUid messageSource, string message, RadioChannelPrototype channel, EntityUid radioSource, bool escapeMarkup = true, bool useNetworkOverride = true)
+    public void SendRadioMessage(EntityUid messageSource, string message, RadioChannelPrototype channel, EntityUid radioSource, bool escapeMarkup = true, bool useNetworkOverride = true, float transmitterRange = float.PositiveInfinity)
     {
         // TODO if radios ever garble / modify messages, feedback-prevention needs to be handled better than this.
         if (!_messages.Add(message))
@@ -130,8 +133,9 @@ public sealed class RadioSystem : EntitySystem
             ChatChannel.Radio,
             message,
             wrappedMessage,
-            NetEntity.Invalid,
-            null);
+            GetNetEntity(messageSource), // Persistence: Chat stacking from RMC14 - pull/7587
+            _chatManager.EnsurePlayer(CompOrNull<ActorComponent>(messageSource)?.PlayerSession.UserId)?.Key,  // Persistence: Chat stacking from RMC14 - pull/7587
+            repeatCheckSender: !HasComp<ChatRepeatIgnoreSenderComponent>(radioSource));  // Persistence: Chat stacking from RMC14 - pull/7587
         var chatMsg = new MsgChatMessage { Message = chat };
         var ev = new RadioReceiveEvent(message, messageSource, channel, radioSource, chatMsg);
 
@@ -167,12 +171,12 @@ public sealed class RadioSystem : EntitySystem
             transmitterNode = new NetworkNode()
             {
                 IsPowered = true,
-                Range = float.PositiveInfinity,
+                Range = transmitterRange,
                 MapCoordinates = _xform.GetMapCoordinates(sourceTransform)
             };
         }
         else
-            hasActiveServer = true;// HasActiveServer(sourceMapId, channel.ID);
+            hasActiveServer = true; // Changed from HasActiveServer(mapId, channelId)
 
         var radioQuery = EntityQueryEnumerator<ActiveRadioComponent, TransformComponent>();
         var encryptionID = 0;
@@ -216,8 +220,6 @@ public sealed class RadioSystem : EntitySystem
                                                              !intercom.SupportedChannels.Contains(channel.ID)))
                     continue;
             }
-
-
 
             if (!channel.LongRange && transform.MapID != sourceMapId && !radio.GlobalReceive)
                 continue;

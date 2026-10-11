@@ -25,7 +25,7 @@
   recipes:
   - Jug
   - ChemistryEmptyBottle01
-  - ClothingEyesGlassesChemical
+#  - ClothingEyesGlassesChemical # Moffstation - Replaced by modular HUDs
 
 - type: latheRecipePack
   id: SurgeryStatic
@@ -49,6 +49,9 @@
   - OffsetCane
   - OffsetCaneWood
   - JetInjector
+  - CMBloodPack
+  - CMIV
+  - StirringRod
 
 - type: latheRecipePack
   id: RollerBedsStatic
@@ -62,6 +65,7 @@
   recipes:
   - ClothingHandsGlovesLatex
   - ClothingHandsGlovesNitrile
+  - ClothingHandsGlovesNitrileForensic
   - ClothingMaskSterile
 
 # These are all empty
@@ -86,6 +90,7 @@
   - ChemMasterMachineCircuitboard
   - CondenserMachineCircuitBoard
   - HotplateMachineCircuitboard
+  - ColdplateMachineCircuitboard # Persistence
   - CrewMonitoringComputerCircuitboard
   - MedicalRecordsComputerCircuitboard
   - BodyScannerComputerCircuitboard
@@ -102,6 +107,7 @@
   - SyringeCryostasis
   - BluespaceBeaker
   - SyringeBluespace
+  - BluespaceJug
   - LauncherSyringe
   - MiniSyringe
   - AdvancedJetInjector

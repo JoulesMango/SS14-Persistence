@@ -14,6 +14,14 @@
     {
       "name": "soda",
       "directions": 4
+    },
+    {
+      "name": "mixer_beaker",
+      "directions": 4
+    },
+    {
+      "name": "mixer_empty",
+      "directions": 4
     }
   ]
 }

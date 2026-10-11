@@ -34,6 +34,9 @@
   id: AppraisalTool # Storage whitelist: BaseClothingBeltEngineering
 
 - type: Tag
+  id: ApcElectronics # ConstructionGraph
+
+- type: Tag
   id: Apron # ConstructionGraph: scraparmor
 
 - type: Tag
@@ -530,6 +533,7 @@
 - type: Tag
   id: EmitterBolt # Default value in ContainmentFieldGeneratorComponent for tagged collisions that power the generator.
 
+
 - type: Tag
   id: EncryptionCargo # ItemMapper: TelecomServer
 
@@ -591,6 +595,11 @@
 
 - type: Tag
   id: FirelockElectronics # ConstructionGraph: Firelock
+
+#Persistence 14
+
+- type: Tag
+  id: FlagHand # Handy flags for bounties
 
 - type: Tag
   id: Flare # Storage whitelist: BaseClothingBeltEngineering
@@ -814,12 +823,6 @@
   id: Ice # CreateEntityTileReaction whitelist on Fresium
 
 - type: Tag
-  id: IFFShip # IFF sort tag for ships.
-
-- type: Tag
-  id: IFFStation # IFF sort tag for stations.
-
-- type: Tag
   id: Igniter # ConstructionGraph: makeshiftstunprod, FireBomb. Common ingredient in machines (HyperConvection)
 
 - type: Tag
@@ -1030,6 +1033,9 @@
   id: NoConsoleSound # Blacklist on BaseComputer, StationMap. Tagged entity will not make sound when opening the UI.
 
 - type: Tag
+  id: NoGib # Persistence 14: Prevents anything this is put on from being gibbed. Temporary solution to gibbing related glitches.
+
+- type: Tag
   id: NotGhostnadoWarpable # Prevents the entity from being selected via "Warp to most followed" ghost warp
 
 - type: Tag
@@ -1152,6 +1158,9 @@
   id: PKAUpgrade # UpgradeableGun whitelist for WeaponProtoKineticAccelerator.
 
 - type: Tag
+  id: PlantAnalyzer # Storage whitelist: ClothingBeltPlant. ItemMapper: ClothingBeltPlant
+
+- type: Tag
   id: PlantBGone # Storage whitelist: ClothingBeltPlant. ItemMapper: ClothingBeltPlant
 
 - type: Tag
@@ -1211,6 +1220,15 @@
 - type: Tag
   id: PowerCellSmall # Storage whitelist: BaseWeaponPowerCell, PowerCellRecharger, ShuttleGunSvalinnMachineGun.
                      # ConstructionGraph: WallmountSubstation, makeshiftstunprod
+
+- type: Tag
+  id: PowerCellMedium
+
+- type: Tag
+  id: PowerCellHigh
+
+- type: Tag
+  id: PowerCellHyper
 
 - type: Tag
   id: Powerdrill # Storage whitelist: BaseClothingBeltEngineering. ItemMapper: BaseClothingBeltEngineering
@@ -1417,6 +1435,8 @@
   id: Steak # CargoBounty: BountySteak
 
 - type: Tag
+  id: StorageCounter # Targeting whitelist: HandLabeler ...
+- type: Tag
   id: StringInstrument # MachineBoard construction: DawInstrumentMachineCircuitboard
 
 - type: Tag
@@ -1465,6 +1485,9 @@
 
 - type: Tag
   id: TheaterBagel # used for Bagel Station's randomized theater
+
+- type: Tag
+  id: ThrusterWallmountElectronics # ConstructionGraph: WallmountThrusterGraph
 
 - type: Tag
   id: TimerBrigElectronics # ConstructionGraph: Timer
@@ -1752,6 +1775,6 @@
 
 - type: Tag
   id: XenoMeat
-  
+
 - type: Tag
   id: EggSpider

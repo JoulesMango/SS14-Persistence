@@ -1,30 +1,20 @@
 - type: cargoProduct
-  id: ChemistryPSTS
+  id: ChemistryMetalsSTS
   icon:
     sprite: Structures/Storage/Crates/chemcrate_secure.rsi
     state: icon
-  product: CrateChemistryP
+  product: CrateChemistryMetals
   cost: 1250
   category: cargoproduct-category-name-medical
   group: sciencemarket
 
 - type: cargoProduct
-  id: ChemistrySSTS
+  id: ChemistryNonMetalsSTS
   icon:
     sprite: Structures/Storage/Crates/chemcrate_secure.rsi
     state: icon
-  product: CrateChemistryS
-  cost: 1000
-  category: cargoproduct-category-name-medical
-  group: sciencemarket
-
-- type: cargoProduct
-  id: CrateChemistryDSTS
-  icon:
-    sprite: Structures/Storage/Crates/chemcrate_secure.rsi
-    state: icon
-  product: CrateChemistryD
-  cost: 1000
+  product: CrateChemistryNonMetals
+  cost: 1250
   category: cargoproduct-category-name-medical
   group: sciencemarket
 
@@ -236,4 +226,14 @@
   product: CrateFoodSnowcone
   cost: 4000
   category: cargoproduct-category-name-food
+  group: sciencemarket
+
+- type: cargoProduct
+  id: RNDKitSTS
+  icon:
+    sprite: Structures/Machines/server.rsi
+    state: server
+  product: CrateRNDKit
+  cost: 10000
+  category: cargoproduct-category-name-science
   group: sciencemarket

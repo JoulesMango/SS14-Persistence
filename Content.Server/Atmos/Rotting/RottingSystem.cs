@@ -107,6 +107,11 @@ public sealed class RottingSystem : SharedRottingSystem
             if (!IsRotProgressing(uid, perishable))
                 continue;
             rotting.TotalRotTime += rotting.RotUpdateRate * GetRotRate(uid);
+            if (rotting.TotalRotTime >= rotting.MaximumTotalRotTime)
+            {
+                rotting.TotalRotTime = rotting.MaximumTotalRotTime;
+                continue; // Persistence: Stop processing this entity so we don't infinitely generate ammonia
+            }
 
             if (rotting.DealDamage)
             {

@@ -227,6 +227,11 @@
   id: HotplateMachineCircuitboard
   result: HotplateMachineCircuitboard
 
+- type: latheRecipe # Persistence
+  parent: [ BaseCircuitboardRecipe, BaseMedicalMachineRecipeCategory ]
+  id: ColdplateMachineCircuitboard
+  result: ColdplateMachineCircuitboard
+
 - type: latheRecipe
   parent: [ BaseCircuitboardRecipe, BaseMedicalMachineRecipeCategory ]
   id: ElectrolysisUnitMachineCircuitboard
@@ -274,6 +279,12 @@
   id: ArtifactAnalyzerMachineCircuitboard
   result: ArtifactAnalyzerMachineCircuitboard
   unlockUses: 4
+
+- type: latheRecipe
+  parent: [ BaseGoldCircuitboardRecipe, BaseResearchMachineRecipeCategory ]
+  id: ArtifactAnalyzerAdvancedMachineCircuitboard
+  result: ArtifactAnalyzerAdvancedMachineCircuitboard
+  unlockUses: 2
 
 - type: latheRecipe
   parent: [ BaseGoldCircuitboardRecipe, BaseResearchMachineRecipeCategory ]
@@ -362,6 +373,16 @@
 
 - type: latheRecipe
   parent: [ BaseCircuitboardRecipe, BaseServiceMachineRecipeCategory ]
+  id: MixingMachineCircuitboard
+  result: MixingMachineCircuitboard
+
+- type: latheRecipe
+  parent: [ BaseCircuitboardRecipe, BaseServiceMachineRecipeCategory ]
+  id: ButcheringMachineCircuitboard
+  result: ButcheringMachineCircuitboard
+
+- type: latheRecipe
+  parent: [ BaseCircuitboardRecipe, BaseServiceMachineRecipeCategory ]
   id: FatExtractorMachineCircuitboard
   result: FatExtractorMachineCircuitboard
   unlockUses: 4
@@ -389,6 +410,12 @@
   parent: [ BaseCircuitboardRecipe, BaseSupplyMachineRecipeCategory ]
   id: GyroscopeMachineCircuitboard
   result: GyroscopeMachineCircuitboard
+  unlockUses: 2
+
+- type: latheRecipe
+  parent: [ BaseCircuitboardRecipe, BaseSupplyMachineRecipeCategory ]
+  id: GyroscopeFloorMachineCircuitboard
+  result: GyroscopeFloorMachineCircuitboard
   unlockUses: 2
 
 - type: latheRecipe
@@ -508,6 +535,11 @@
 
 - type: latheRecipe
   parent: [ BaseCircuitboardRecipe, BaseGeneralMachineRecipeCategory ]
+  id: PlushieLatheCircuitboard
+  result: PlushieLatheCircuitboard
+
+- type: latheRecipe
+  parent: [ BaseCircuitboardRecipe, BaseGeneralMachineRecipeCategory ]
   id: SheetifierMachineCircuitboard
   result: SheetifierMachineCircuitboard
 
@@ -537,8 +569,8 @@
 
 - type: latheRecipe
   parent: [ BaseCircuitboardRecipe, BaseEngineeringMachineRecipeCategory ]
-  id: TelecomServer1kCircuitboard
-  result: TelecomServer1kCircuitboard
+  id: TelecomServerAdvancedCircuitboard
+  result: TelecomServerAdvancedCircuitboard
   unlockUses: 1
 
 - type: latheRecipe
@@ -569,4 +601,10 @@
   parent: [ BaseCircuitboardRecipe, BaseGeneralMachineRecipeCategory ]
   id: HolopadMachineCircuitboard
   result: HolopadMachineCircuitboard
+  unlockUses: 4
+
+- type: latheRecipe
+  parent: [ BaseCircuitboardRecipe, BaseGeneralMachineRecipeCategory ]
+  id: HolopadLongRangeMachineCircuitboard
+  result: HolopadLongRangeMachineCircuitboard
   unlockUses: 4

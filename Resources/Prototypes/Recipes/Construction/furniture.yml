@@ -457,10 +457,34 @@
     - !type:TileNotBlocked
 
 - type: construction
+  id: TableCounterPharma
+  graph: Table
+  startNode: start
+  targetNode: CounterPharma
+  category: construction-category-furniture
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canBuildInImpassable: false
+  conditions:
+    - !type:TileNotBlocked
+
+- type: construction
   id: TableCounterWood
   graph: Table
   startNode: start
   targetNode: CounterWood
+  category: construction-category-furniture
+  objectType: Structure
+  placementMode: SnapgridCenter
+  canBuildInImpassable: false
+  conditions:
+    - !type:TileNotBlocked
+
+- type: construction
+  id: StorageCounterConstruction
+  graph: StorageCounterGraph
+  startNode: start
+  targetNode: storagecounter
   category: construction-category-furniture
   objectType: Structure
   placementMode: SnapgridCenter

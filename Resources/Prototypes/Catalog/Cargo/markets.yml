@@ -32,6 +32,18 @@
   id: sciencemarket4
 
 - type: cargoMarket
+  id: servicemarket
+
+- type: cargoMarket
+  id: servicemarket2
+
+- type: cargoMarket
+  id: servicemarket3
+
+- type: cargoMarket
+  id: servicemarket4
+
+- type: cargoMarket
   id: huntermarket
 
 - type: cargoMarket
@@ -78,3 +90,15 @@
 
 - type: cargoMarket
   id: syndicatemarket4
+
+- type: cargoMarket
+  id: medicalmarket
+
+- type: cargoMarket
+  id: medicalmarket2
+
+- type: cargoMarket
+  id: medicalmarket3
+
+- type: cargoMarket
+  id: medicalmarket4

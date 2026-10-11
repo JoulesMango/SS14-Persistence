@@ -22,6 +22,7 @@ using Content.Shared.CrewRecords.Components;
 using Content.Shared.Cuffs;
 using Content.Shared.Cuffs.Components;
 using Content.Shared.DoAfter;
+using Content.Shared.Implants;
 using Content.Shared.Implants.Components;
 using Content.Shared.Interaction;
 using Content.Shared.Mobs;
@@ -98,6 +99,7 @@ public sealed partial class JobNetSystem : SharedJobNetSystem
         SubscribeLocalEvent<JobNetComponent, MapInitEvent>(OnMapInit);
         SubscribeLocalEvent<JobNetComponent, ComponentStartup>(OnStartup);
         SubscribeLocalEvent<JobNetComponent, ComponentShutdown>(OnShutdown);
+        SubscribeLocalEvent<JobNetComponent, ImplantImplantedEvent>(OnJobNetImplantImplanted);
         SubscribeLocalEvent<JobNetComponent, OpenJobNetImplantEvent>(OnImplantActivate);
         SubscribeLocalEvent<JobNetComponent, JobNetSelectMessage>(OnSelect);
         SubscribeLocalEvent<JobNetComponent, JobNetPurchaseMessage>(OnPurchase);
@@ -658,6 +660,12 @@ public sealed partial class JobNetSystem : SharedJobNetSystem
         ToggleUi(args.Performer, uid, component);
     }
 
+    private void OnJobNetImplantImplanted(Entity<JobNetComponent> ent, ref ImplantImplantedEvent args)
+    {
+        var mob = args.Implanted;
+        _bank.EnsureAccount(Name(mob), 50);
+    }
+
     public void TryAssignRogueObjective(EntityUid user, JobNetComponent component)
     {
         component.KillTarget = null;
@@ -782,6 +790,7 @@ public sealed partial class JobNetSystem : SharedJobNetSystem
                             {
                                 if (TryComp<ActorComponent>(player, out var actor) && actor != null && actor.PlayerSession != null)
                                 {
+                                    record.LastPaid = DateTime.Now;
                                     var bank = _bank.GetMoneyAccountsComponent();
                                     if (bank == null) return;
                                     if (_cargo.TryGetAccount(station.Value, "Cargo", out var money))

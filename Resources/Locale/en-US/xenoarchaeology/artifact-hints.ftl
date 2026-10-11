@@ -49,10 +49,7 @@ xenoarch-trigger-tip-no-oxygen = Oxygen-free environment
 xenoarch-trigger-tip-water = Water
 xenoarch-trigger-tip-co2 = Carbon dioxide
 xenoarch-trigger-tip-plasma = Non-solid plasma
-xenoarch-trigger-tip-tritium = Tritium
 xenoarch-trigger-tip-ammonia = Ammonia
-xenoarch-trigger-tip-n2o = Nitrous oxide
-xenoarch-trigger-tip-frezon = Frezon
 xenoarch-trigger-tip-radiation = Radiation
 xenoarch-trigger-tip-brute-damage = Physical damage
 xenoarch-trigger-tip-interaction = Physical interaction
@@ -68,6 +65,7 @@ xenoarch-trigger-tip-blood = Blood
 xenoarch-trigger-tip-throw = Being thrown
 xenoarch-trigger-tip-death = Death
 xenoarch-trigger-tip-magnet = Magnetic waves
+
 
 ### Description hints
 xenoarch-trigger-examine-wrenching = There's a loose bit spinning around.

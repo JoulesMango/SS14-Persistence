@@ -1,33 +1,3 @@
-- type: weightedRandomXenoArchTrigger
-  id: DefaultTriggers
-  weights:
-    TriggerMusic: 1
-    TriggerHeat: 1
-    TriggerCold: 0.5
-    TriggerNoOxygen: 1
-    TriggerWater: 1
-    TriggerCO2: 0.5
-    TriggerPlasma: 0.5
-    TriggerN2O: 0.5
-    TriggerTritium: 0.1
-    TriggerAmmonia: 0.1
-    TriggerFrezon: 0.1
-    TriggerRadiation: 1
-    TriggerPressureHigh: 0.5
-    TriggerPressureLow: 1
-    TriggerExamine: 1
-    TriggerBruteDamage: 1
-    #TriggerInteraction: 1 #this one interferes with activating artifact AND brute dmg!
-    TriggerWrenching: 0.5
-    TriggerPrying: 0.5
-    TriggerScrewing: 0.5
-    TriggerPulsing: 0.5
-    TriggerTimer: 0.25
-    TriggerBlood: 1
-    TriggerThrow: 1
-    TriggerDeath: 1
-    TriggerMagnet: 1
-
 - type: xenoArchTrigger
   id: TriggerMusic
   tip: xenoarch-trigger-tip-music
@@ -46,11 +16,10 @@
   - type: XATDamageThresholdReached
     typesNeeded:
       Heat: 20
-# This kinda trivializes the difficulty.
-#  - type: XATToolUse
-#    requiredTool: Welding
-#    delay: 5
-#    fuel: 10
+  - type: XATToolUse
+    requiredTool: Welding
+    delay: 5
+    fuel: 10
 
 - type: xenoArchTrigger
   id: TriggerCold
@@ -68,7 +37,8 @@
   tip: xenoarch-trigger-tip-no-oxygen
   components:
   - type: XATGas
-    targetGas: Oxygen
+    gases:
+    - Oxygen
     moles: 10
     shouldBePresent: false
 
@@ -77,70 +47,48 @@
   tip: xenoarch-trigger-tip-water
   components:
   - type: XATGas
-    targetGas: WaterVapor
+    gases:
+    - WaterVapor
   - type: XATReactive
-    reagents:
-    - Water
+    whitelist:
+      reagents:
+      - Water
 
 - type: xenoArchTrigger
   id: TriggerCO2
   tip: xenoarch-trigger-tip-co2
   components:
   - type: XATGas
-    targetGas: CarbonDioxide
-  - type: XATReactive
-    reagents:
+    gases:
     - CarbonDioxide
+  - type: XATReactive
+    whitelist:
+      reagents:
+      - CarbonDioxide
 
 - type: xenoArchTrigger
   id: TriggerPlasma
   tip: xenoarch-trigger-tip-plasma
   components:
   - type: XATGas
-    targetGas: Plasma
-  - type: XATReactive
-    reagents:
+    gases:
     - Plasma
-
-- type: xenoArchTrigger
-  id: TriggerTritium
-  tip: xenoarch-trigger-tip-tritium
-  components:
-  - type: XATGas
-    targetGas: Tritium
   - type: XATReactive
-    reagents:
-    - Tritium
+    whitelist:
+      reagents:
+      - Plasma
 
 - type: xenoArchTrigger
   id: TriggerAmmonia
   tip: xenoarch-trigger-tip-ammonia
   components:
   - type: XATGas
-    targetGas: Ammonia
-  - type: XATReactive
-    reagents:
+    gases:
     - Ammonia
-
-- type: xenoArchTrigger
-  id: TriggerN2O
-  tip: xenoarch-trigger-tip-n2o
-  components:
-  - type: XATGas
-    targetGas: NitrousOxide
   - type: XATReactive
-    reagents:
-    - NitrousOxide
-
-- type: xenoArchTrigger
-  id: TriggerFrezon
-  tip: xenoarch-trigger-tip-frezon
-  components:
-  - type: XATGas
-    targetGas: Frezon
-  - type: XATReactive
-    reagents:
-    - Frezon
+    whitelist:
+      reagents:
+      - Ammonia
 
 - type: xenoArchTrigger
   id: TriggerRadiation
@@ -170,14 +118,6 @@
   tip: xenoarch-trigger-tip-examine
   components:
   - type: XATExamine
-
-- type: xenoArchTrigger
-  id: TriggerBruteDamage
-  tip: xenoarch-trigger-tip-brute-damage
-  components:
-  - type: XATDamageThresholdReached
-    groupsNeeded:
-      Brute: 20
 
 - type: xenoArchTrigger
   id: TriggerInteraction
@@ -222,6 +162,30 @@
     examineText: xenoarch-trigger-examine-pulsing
 
 - type: xenoArchTrigger
+  id: TriggerSlicing
+  tip: xenoarch-trigger-tip-slicing
+  components:
+  - type: XATToolUse
+    requiredTool: Slicing
+  - type: XATDamageThresholdReached
+    typesNeeded:
+      Slash: 20
+  - type: XATExaminableText
+    examineText: xenoarch-trigger-examine-slicing
+
+- type: xenoArchTrigger
+  id: TriggerCutting
+  tip: xenoarch-trigger-tip-cutting
+  components:
+  - type: XATToolUse
+    requiredTool: Cutting
+  - type: XATDamageThresholdReached
+    typesNeeded:
+      Slash: 20
+  - type: XATExaminableText
+    examineText: xenoarch-trigger-examine-cutting
+
+- type: xenoArchTrigger
   id: TriggerTimer
   tip: xenoarch-trigger-tip-timer
   components:
@@ -235,15 +199,22 @@
   tip: xenoarch-trigger-tip-blood
   components:
   - type: XATReactive
-    reagents:
-    - Blood
-    - CopperBlood
-    - InsectBlood
-    - Slime
-    - AmmoniaBlood
-    - ZombieBlood
-    - Sap
-    - SulfurBlood
+    whitelist:
+      reagents:
+      - Blood
+      - CopperBlood
+      - InsectBlood
+      - Slime
+      - AmmoniaBlood
+      - ZombieBlood
+      - Sap
+      - SulfurBlood
+      - Saline
+  - type: XATItemInteract
+    use: 1
+    whitelist:
+     tags:
+     - Bloodpack
 
 - type: xenoArchTrigger
   id: TriggerThrow

@@ -1,0 +1,71 @@
+- type: reaction
+  id: Omnizine
+  minTemp: 480
+  reactants:
+    Arcryox:
+      amount: 1
+    Arithrazine:
+      amount: 1
+    Happiness:
+      amount: 1
+    Nectar:
+      amount: 1
+    Phoron:
+      amount: 1
+      catalyst: true
+  products:
+    Omnizine: 1
+    Acetone: 1
+    Radium: 2
+
+- type: reaction
+  id: Pyronitrodone
+  minTemp: 370
+  reactants:
+    Nitrogen:
+      amount: 2
+    Oil:
+      amount: 1
+    TranexamicAcid:
+      amount: 1
+  products:
+    Pyronitrodone: 4
+
+- type: reaction
+  id: Noxapyrone
+  minTemp: 400
+  reactants:
+    Plasma:
+      amount: 1
+    Benzene:
+      amount: 1
+    Pyronitrodone:
+      amount: 1
+    Nectar:
+      amount: 1
+  products:
+    Noxapyrone: 2
+
+- type: reaction
+  id: Acetaminophen
+  reactants:
+    Psicodine:
+      amount: 8
+    Bicaridine:
+      amount: 6
+    ChloralHydrate:
+      amount: 1
+  products:
+    Acetaminophen: 15
+
+- type: reaction
+  id: Algesiprol
+  minTemp: 400
+  maxTemp: 450
+  reactants:
+    Acetaminophen:
+      amount: 2
+    Omnizine:
+      amount: 1
+  products:
+    Algesiprol: 3

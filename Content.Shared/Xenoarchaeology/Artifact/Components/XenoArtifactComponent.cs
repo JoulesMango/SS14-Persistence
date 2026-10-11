@@ -1,3 +1,5 @@
+using Content.Shared._Persistence14.RandomTable;
+using Content.Shared._Persistence14.RandomTable.Selectors;
 using Content.Shared.Actions;
 using Content.Shared.Actions.Components;
 using Content.Shared.Destructible.Thresholds;
@@ -7,6 +9,7 @@ using Robust.Shared.Audio;
 using Robust.Shared.Containers;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom;
 using Robust.Shared.Utility;
 
 namespace Content.Shared.Xenoarchaeology.Artifact.Components;
@@ -81,8 +84,15 @@ public sealed partial class XenoArtifactComponent : Component
     /// <summary>
     /// When next unlock session can be triggered.
     /// </summary>
-    [DataField, AutoPausedField]
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), AutoPausedField]
     public TimeSpan NextUnlockTime;
+
+    /// <summary>
+    /// Units of artifexium that substitute for one required node trigger. A node needing N triggers
+    /// unlocks with N * this many units. Keep in sync with the ArtifactUnlock effect's minScale.
+    /// </summary>
+    [DataField]
+    public float ArtifexiumCostPerTrigger = 5f;
     #endregion
 
     // NOTE: you should not be accessing any of these values directly. Use the methods in SharedXenoArtifactSystem.Graph
@@ -112,7 +122,7 @@ public sealed partial class XenoArtifactComponent : Component
     /// The total number of nodes that make up this artifact.
     /// </summary>
     [DataField]
-    public MinMax NodeCount = new(10, 16);
+    public MinMax NodeCount = new(12, 18);
 
     /// <summary>
     /// The amount of nodes that go in each segment.
@@ -134,19 +144,62 @@ public sealed partial class XenoArtifactComponent : Component
     public MinMax ScatterPerLayer = new(0, 2);
 
     /// <summary>
-    /// Effects that can be used during this artifact generation.
+    /// Lower threshold in which nodes will be considered "root"
     /// </summary>
     [DataField]
-    public EntityTableSelector EffectsTable = new NestedSelector
+    public int RootNodeThreshold = 0;
+
+    /// <summary>
+    /// Threshold at which nodes will switch from main to deep.
+    /// </summary>
+    [DataField]
+    public int DeepNodeThreshold = 3;
+
+    /// <summary>
+    /// Effects that can be used during this artifact generation.
+    /// Used on nodes of depth at most <see cref="RootNodeThreshold"/> 
+    /// </summary>
+    [DataField]
+    public EntityTableSelector RootEffectsTable = new NestedSelector
     {
-        TableId = "XenoArtifactEffectsDefaultTable"
+        TableId = "XenoArtifactDefaultEffectsRoot"
     };
 
     /// <summary>
-    /// Triggers that can be used during this artefact generation.
+    /// Effects that can be used during this artifact generation.
+    /// Used on nodes between depths <see cref="RootNodeThreshold"/> and <see cref="DeepNodeThreshold"/>  
     /// </summary>
     [DataField]
-    public ProtoId<WeightedRandomXenoArchTriggerPrototype> TriggerWeights = "DefaultTriggers";
+    public EntityTableSelector MainEffectsTable = new NestedSelector
+    {
+        TableId = "XenoArtifactDefaultEffectsMain"
+    };
+
+    /// <summary>
+    /// Effects that can be used during this artifact generation.
+    /// Used on nodes of depth <see cref="DeepNodeThreshold"/> or deeper
+    /// </summary>
+    [DataField]
+    public EntityTableSelector DeepEffectsTable = new NestedSelector
+    {
+        TableId = "XenoArtifactDefaultEffectsDeep"
+    };
+
+
+    [DataField]
+    public RandomTableSelector RootTriggerTable = new RandomTableNestedSelector("XenoArchTriggersDefaultRoot");
+    [DataField(readOnly: true), AutoNetworkedField]
+    public Dictionary<ProtoId<XenoArchTriggerPrototype>, float> PossibleRootTriggers = new();
+
+    [DataField]
+    public RandomTableSelector MainTriggerTable = new RandomTableNestedSelector("XenoArchTriggersDefaultMain");
+    [DataField(readOnly: true), AutoNetworkedField]
+    public Dictionary<ProtoId<XenoArchTriggerPrototype>, float> PossibleMainTriggers = new();
+
+    [DataField]
+    public RandomTableSelector DeepTriggerTable = new RandomTableNestedSelector("XenoArchTriggersDefaultDeep");
+    [DataField(readOnly: true), AutoNetworkedField]
+    public Dictionary<ProtoId<XenoArchTriggerPrototype>, float> PossibleDeepTriggers = new();
     #endregion
 
     /// <summary>

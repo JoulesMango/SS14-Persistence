@@ -1,3 +1,5 @@
+using System.Numerics;
+using Content.Shared.Sectors;
 using Content.Shared.Shuttles.Systems;
 using Content.Shared.Shuttles.UI.MapObjects;
 using Content.Shared.Timing;
@@ -25,15 +27,23 @@ public sealed class ShuttleMapInterfaceState
 
     public List<ShuttleExclusionObject> Exclusions;
 
+    public Dictionary<SpaceSector, string> SectorWeatherEvents;
+
+    public Vector2? Waypoint;
+
     public ShuttleMapInterfaceState(
         FTLState ftlState,
         StartEndTime ftlTime,
         List<ShuttleBeaconObject> destinations,
-        List<ShuttleExclusionObject> exclusions)
+        List<ShuttleExclusionObject> exclusions,
+        Dictionary<SpaceSector, string>? sectorWeatherEvents = null,
+        Vector2? waypoint = null)
     {
         FTLState = ftlState;
         FTLTime = ftlTime;
         Destinations = destinations;
         Exclusions = exclusions;
+        SectorWeatherEvents = sectorWeatherEvents ?? new Dictionary<SpaceSector, string>();
+        Waypoint = waypoint;
     }
 }

@@ -16,6 +16,12 @@
                 <Button Name="ShowVesselOffButton" Text="{Loc 'iff-console-off'}" StyleClasses="OpenLeft" />
             </BoxContainer>
 
+            <Label Name="ShowFactionTagLabel" Text="{Loc 'iff-console-show-faction-tag-label'}" HorizontalExpand="True" StyleClasses="highlight" />
+            <BoxContainer Orientation="Horizontal" MinWidth="120">
+                <Button Name="ShowFactionTagOnButton" Text="{Loc 'iff-console-on'}" StyleClasses="OpenRight" />
+                <Button Name="ShowFactionTagOffButton" Text="{Loc 'iff-console-off'}" StyleClasses="OpenLeft" />
+            </BoxContainer>
+
             <Label Text="{Loc 'iff-console-designation-label'}" HorizontalExpand="True" StyleClasses="highlight" />
             <OptionButton Name="DesignationOptionButton" MinWidth="120" />
 
@@ -25,6 +31,24 @@
                 <Label Text="#" Margin="0 2 2 0" />
                 <LineEdit Name="SignatureColorLineEdit" HorizontalExpand="True" MinWidth="110" PlaceHolder="{Loc 'iff-console-signature-color-placeholder'}" />
                 <Button Name="ApplyColorButton" Text="{Loc 'iff-console-signature-color-apply'}" />
+            </BoxContainer>
+
+            <Label Text="Hue" HorizontalExpand="True" StyleClasses="highlight"/>
+            <BoxContainer Orientation="Horizontal" MinWidth="185">
+                <Slider Name="HueSlider" MinWidth="165" MinValue="0" MaxValue="255"/>
+                <LineEdit Name="HueField" HorizontalExpand="True"/>
+            </BoxContainer>
+
+            <Label Text="Saturation" HorizontalExpand="True" StyleClasses="highlight"/>
+            <BoxContainer Orientation="Horizontal" MinWidth="185">
+                <Slider Name="SaturationSlider" MinWidth="165" MinValue="0" MaxValue="255"/>
+                <LineEdit Name="SaturationField" HorizontalExpand="True"/>
+            </BoxContainer>
+
+            <Label Text="Value" HorizontalExpand="True" StyleClasses="highlight"/>
+            <BoxContainer Orientation="Horizontal" MinWidth="185">
+                <Slider Name="ValueSlider" MinWidth="165" MinValue="0" MaxValue="255"/>
+                <LineEdit Name="ValueField" HorizontalExpand="True"/>
             </BoxContainer>
         </GridContainer>
     </BoxContainer>

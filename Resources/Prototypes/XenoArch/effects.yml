@@ -1,146 +1,3 @@
-- type: entityTable
-  id: XenoArtifactEffectsDefaultTable
-  table: !type:GroupSelector
-    children:
-    # hijacks use key, prevents from using artifact, sadly
-    #- id: XenoArtifactEffectUniversalIntercom
-    #  weight: 10.0
-    - id: XenoArtifactSolutionStorage
-      weight: 10.0
-    - id: XenoArtifactPhasing
-      weight: 2.0
-    - id: XenoArtifactWandering
-      weight: 4.0
-    - id: XenoArtifactSpeedUp
-      weight: 4.0
-    - id: XenoArtifactGhost
-      weight: 2.0
-    - id: XenoArtifactEffectBadFeeling
-      weight: 10.0
-    - id: XenoArtifactEffectGoodFeeling
-      weight: 10.0
-    - id: XenoArtifactEffectJunkSpawn
-      weight: 10.0
-    - id: XenoArtifactEffectLightFlicker
-      weight: 10.0
-    - id: XenoArtifactPotassiumWave
-      weight: 7.0
-    - id: XenoArtifactFloraSpawn
-      weight: 10.0
-    - id: XenoArtifactChemicalPuddle
-      weight: 10.0
-    - id: XenoArtifactThrowThingsAround
-      weight: 10.0
-    - id: XenoArtifactColdWave
-      weight: 10.0
-    - id: XenoArtifactHeatWave
-      weight: 4.0
-    - id: XenoArtifactFoamMild
-      weight: 8.0
-    - id: XenoArtifactRandomInstrumentSpawn
-      weight: 10.0
-    - id: XenoArtifactMonkeySpawn
-      weight: 10.0
-    - id: XenoArtifactRadioactive
-      weight: 8.0
-    - id: XenoArtifactChargeBattery
-      weight: 10.0
-    - id: XenoArtifactKnock
-      weight: 4.0
-    - id: XenoArtifactMagnet
-      weight: 2.0
-    - id: XenoArtifactMagnetNegative
-      weight: 2.0
-    - id: XenoArtifactStealth
-      weight: 1.0
-    - id: XenoArtifactRareMaterialSpawnSilver
-      weight: 1.8 # amount is laughable
-    - id: XenoArtifactRareMaterialSpawnPlasma
-      weight: 2.0 # amount is laughable
-    - id: XenoArtifactRareMaterialSpawnGold
-      weight: 1.8 # amount is laughable
-    - id: XenoArtifactRareMaterialSpawnUranium
-      weight: 1.0 # amount is laughable
-    - id: XenoArtifactAngryCarpSpawn
-      weight: 4.0
-    - id: XenoArtifactFaunaSpawn
-      weight: 10.0
-    - id: XenoArtifactHostileFaunaSpawn
-      weight: 10.0
-    - id: XenoArtifactCashSpawn
-      weight: 10.0
-    - id: XenoArtifactShatterWindows
-      weight: 8.0
-    - id: XenoArtifactFoamGood
-      weight: 4.0
-    - id: XenoArtifactFoamDangerous
-      weight: 2.0
-    - id: XenoArtifactPuddleRare
-      weight: 2.0
-    - id: XenoArtifactAnomalySpawn
-      weight: 10.0
-    - id: XenoArtifactIgnite
-      weight: 2.0
-    - id: XenoArtifactTeleport
-      weight: 2.0
-    - id: XenoArtifactEmp
-      weight: 2.0
-    - id: XenoArtifactPolyMonkey
-      weight: 2.0
-    - id: XenoArtifactPolyLuminous
-      weight: 2.0
-    - id: XenoArtifactPolyLizard
-      weight: 2.0
-    - id: XenoArtifactRadioactiveStrong
-      weight: 3.0
-    - id: XenoArtifactMaterialSpawnGlass
-      weight: 3.3
-    - id: XenoArtifactMaterialSpawnSteel
-      weight: 3.3
-    - id: XenoArtifactMaterialSpawnPlastic
-      weight: 3.3
-    - id: XenoArtifactPortal
-      weight: 2.0
-    - id: XenoArtifactArtifactSpawn
-      weight: 0.5
-    - id: XenoArtifactShuffle
-      weight: 3.0
-    - id: XenoArtifactHealAll
-      weight: 1.0
-    #- id: XenoArtifactTesla
-    #  weight: 10.0
-    #- id: XenoArtifactSingularity
-    #  weight: 10.0
-    - id: XenoArtifactExplosionScary
-      weight: 1.0
-    - id: XenoArtifactBoom
-      weight: 5.0
-    - id: XenoArtifactEffectCreationGasPlasma
-      weight: 2.0
-    - id: XenoArtifactEffectCreationGasTritium
-      weight: 2.0
-    - id: XenoArtifactEffectCreationGasAmmonia
-      weight: 3.0
-    - id: XenoArtifactEffectCreationGasFrezon
-      weight: 1.0
-    - id: XenoArtifactEffectCreationGasNitrousOxide
-      weight: 4.0
-    - id: XenoArtifactEffectCreationGasCarbonDioxide
-      weight: 4.0
-
-- type: entityTable
-  id: XenoArtifactEffectsHandheldOnlyTable
-  table: !type:GroupSelector
-    children:
-    #- id: XenoArtifactBecomeRandomInstrument
-    #  weight 10.0 # removed until we have value-based system
-    #- id: XenoArtifactGun
-    #  weight 4.0 #it conflicts with default interaction - it should activate artifact nodes
-    - id: XenoArtifactOmnitool
-      weight: 10.0
-    - id: XenoArtifactDrill
-      weight: 10.0
-
 - type: entity
   id: BaseXenoArtifactEffect
   name: effect
@@ -161,7 +18,7 @@
   abstract: true
   components:
   - type: XenoArtifactNode
-    maxDurability: 1
+    maxDurability: 0 # One time effects shouldn't need to be activated again
     maxDurabilityCanDecreaseBy:
       min: 0
       max: 0
@@ -287,7 +144,7 @@
       sprintModifier: 1.3
 
 - type: entity
-  id: XenoArtifactDrill
+  id: XenoArtifactToolDrill
   parent: BaseOneTimeXenoArtifactEffect
   description: Obtains ability of drill
   components:
@@ -368,6 +225,62 @@
       mindRoles:
       - MindRoleGhostRoleFreeAgent
     - type: GhostTakeoverAvailable
+
+- type: entity
+  id: XenoArtifactToolCrowbar
+  parent: BaseOneTimeXenoArtifactEffect
+  description: Obtains ability to pry
+  components:
+  - type: XAEApplyComponents
+    components:
+    - type: ToolTileCompatible
+    - type: Tool
+      qualities:
+      - Prying
+      speedModifier: 2 # Very powerful to balance out the desire to sell or scrap for points
+      useSound: /Audio/Items/crowbar.ogg
+
+- type: entity
+  id: XenoArtifactToolScrewdriver
+  parent: BaseOneTimeXenoArtifactEffect
+  description: Obtains ability to screw
+  components:
+  - type: XAEApplyComponents
+    components:
+    - type: ToolTileCompatible
+    - type: Tool
+      qualities:
+      - Screwing
+      speedModifier: 2 # Very powerful to balance out the desire to sell or scrap for points
+      useSound: /Audio/Items/screwdriver.ogg
+
+- type: entity
+  id: XenoArtifactToolWrench
+  parent: BaseOneTimeXenoArtifactEffect
+  description: Obtains ability to tighten
+  components:
+  - type: XAEApplyComponents
+    components:
+    - type: ToolTileCompatible
+    - type: Tool
+      qualities:
+      - Anchoring
+      speedModifier: 2 # Very powerful to balance out the desire to sell or scrap for points
+      useSound: /Audio/Items/ratchet.ogg
+
+- type: entity
+  id: XenoArtifactToolWirecutter
+  parent: BaseOneTimeXenoArtifactEffect
+  description: Obtains ability to cut
+  components:
+  - type: XAEApplyComponents
+    components:
+    - type: ToolTileCompatible
+    - type: Tool
+      qualities:
+      - Cutting
+      speedModifier: 2 # Very powerful to balance out the desire to sell or scrap for points
+      useSound: /Audio/Items/ratchet.ogg
 
 - type: entity
   id: XenoArtifactOmnitool
@@ -678,13 +591,13 @@
   parent: BaseOneTimeXenoArtifactEffect
   description: Becomes mildly radioactive
   components:
-  - type: XAEApplyComponents
-    applyIfAlreadyHave: true
-    refreshOnReactivate: true
-    components:
-    - type: RadiationSource
-      intensity: 1
-      slope: 0.3
+  - type: XAEEntityEffect
+    effects: 
+    - flags: Artifact
+      effect: !type:Irradiate
+        intensity: 2.0
+        halfLife: 5h
+        maxIntensity: 6.0
 
 - type: entity
   id: XenoArtifactChargeBattery
@@ -744,133 +657,6 @@
     - type: StealthOnMove
       passiveVisibilityRate: -0.10
       movementVisibilityRate: 0.10
-
-- type: entity
-  id: XenoArtifactRareMaterialSpawn
-  parent: BaseXenoArtifactEffect # todo: splice into different well-named effects, amounts should reflect how rare material is
-  description: Create rare materials
-  components:
-  - type: XAEApplyComponents
-    applyIfAlreadyHave: true
-    refreshOnReactivate: true
-    components:
-    - type: EntityTableSpawner
-      deleteSpawnerAfterSpawn: false
-      spawnDetached: true
-      table: !type:AllSelector
-        children:
-        - id: SilverOre1
-          rolls: !type:ConstantNumberSelector
-            value: 6
-          prob: 0.3
-        - id: PlasmaOre1
-          rolls: !type:ConstantNumberSelector
-            value: 6
-          prob: 0.3
-        - id: GoldOre1
-          rolls: !type:ConstantNumberSelector
-            value: 6
-          prob: 0.3
-        - id: UraniumOre1
-          rolls: !type:ConstantNumberSelector
-            value: 6
-          prob: 0.3
-
-- type: entity
-  id: XenoArtifactRareMaterialSpawnSilver
-  parent: BaseXenoArtifactEffect
-  description: Create rare materials
-  components:
-  - type: XenoArtifactNode
-    maxDurability: 4
-    maxDurabilityCanDecreaseBy:
-      min: 0
-      max: 2
-  - type: XAEApplyComponents
-    applyIfAlreadyHave: true
-    refreshOnReactivate: true
-    components:
-    - type: EntityTableSpawner
-      deleteSpawnerAfterSpawn: false
-      spawnDetached: true
-      table: !type:AllSelector
-        children:
-        - id: SilverOre1
-          rolls: !type:ConstantNumberSelector
-            value: 6
-          prob: 0.3
-
-- type: entity
-  id: XenoArtifactRareMaterialSpawnPlasma
-  parent: BaseXenoArtifactEffect
-  description: Create plasma
-  components:
-  - type: XenoArtifactNode
-    maxDurability: 4
-    maxDurabilityCanDecreaseBy:
-      min: 0
-      max: 2
-  - type: XAEApplyComponents
-    applyIfAlreadyHave: true
-    refreshOnReactivate: true
-    components:
-    - type: EntityTableSpawner
-      deleteSpawnerAfterSpawn: false
-      spawnDetached: true
-      table: !type:AllSelector
-        children:
-        - id: PlasmaOre1
-          rolls: !type:ConstantNumberSelector
-            value: 6
-          prob: 0.3
-
-- type: entity
-  id: XenoArtifactRareMaterialSpawnGold
-  parent: BaseXenoArtifactEffect
-  description: Create gold
-  components:
-  - type: XenoArtifactNode
-    maxDurability: 3
-    maxDurabilityCanDecreaseBy:
-      min: 0
-      max: 1
-  - type: XAEApplyComponents
-    applyIfAlreadyHave: true
-    refreshOnReactivate: true
-    components:
-    - type: EntityTableSpawner
-      deleteSpawnerAfterSpawn: false
-      spawnDetached: true
-      table: !type:AllSelector
-        children:
-        - id: GoldOre1
-          rolls: !type:ConstantNumberSelector
-            value: 6
-          prob: 0.3
-
-- type: entity
-  id: XenoArtifactRareMaterialSpawnUranium
-  parent: BaseXenoArtifactEffect
-  description: Create uranium
-  components:
-  - type: XenoArtifactNode
-    maxDurability: 4
-    maxDurabilityCanDecreaseBy:
-      min: 0
-      max: 2
-  - type: XAEApplyComponents
-    applyIfAlreadyHave: true
-    refreshOnReactivate: true
-    components:
-    - type: EntityTableSpawner
-      deleteSpawnerAfterSpawn: false
-      spawnDetached: true
-      table: !type:AllSelector
-        children:
-        - id: UraniumOre1
-          rolls: !type:ConstantNumberSelector
-            value: 3
-          prob: 0.3
 
 - type: entity
   id: XenoArtifactAngryCarpSpawn
@@ -993,13 +779,13 @@
         rolls: !type:RangeNumberSelector
           range: 2, 4
         children:
-        - id: TreasureCoinIron
+        - id: SpaceCash10
           weight: 0.75
-        - id: TreasureCoinSilver
+        - id: SpaceCash100
           weight: 0.5
-        - id: TreasureCoinGold
+        - id: SpaceCash500
           weight: 0.25
-        - id: TreasureCoinDiamond
+        - id: SpaceCash1000
           weight: 0.1
 
 - type: entity
@@ -1168,61 +954,13 @@
   parent: BaseOneTimeXenoArtifactEffect
   description: Becomes highly radioactive
   components:
-  - type: XAEApplyComponents
-    applyIfAlreadyHave: true
-    refreshOnReactivate: true
-    components:
-    - type: RadiationSource
-      intensity: 2
-      slope: 0.3
-
-- type: entity
-  id: XenoArtifactMaterialSpawnGlass
-  parent: BaseXenoArtifactEffect
-  description: Create glass
-  components:
-  - type: XAEApplyComponents
-    applyIfAlreadyHave: true
-    refreshOnReactivate: true
-    components:
-    - type: EntityTableSpawner
-      deleteSpawnerAfterSpawn: false
-      spawnDetached: true
-      table: !type:GroupSelector
-        children:
-        - id: SheetGlass
-
-- type: entity
-  id: XenoArtifactMaterialSpawnSteel
-  parent: BaseXenoArtifactEffect
-  description: Create steel
-  components:
-  - type: XAEApplyComponents
-    applyIfAlreadyHave: true
-    refreshOnReactivate: true
-    components:
-    - type: EntityTableSpawner
-      deleteSpawnerAfterSpawn: false
-      spawnDetached: true
-      table: !type:GroupSelector
-        children:
-        - id: SheetSteel
-
-- type: entity
-  id: XenoArtifactMaterialSpawnPlastic
-  parent: BaseXenoArtifactEffect
-  description: Create plastic
-  components:
-  - type: XAEApplyComponents
-    applyIfAlreadyHave: true
-    refreshOnReactivate: true
-    components:
-    - type: EntityTableSpawner
-      deleteSpawnerAfterSpawn: false
-      spawnDetached: true
-      table: !type:GroupSelector
-        children:
-        - id: SheetPlastic
+  - type: XAEEntityEffect
+    effects: 
+    - flags: Artifact
+      effect: !type:Irradiate
+        intensity: 4
+        halfLife: 5h
+        maxIntensity: 12
 
 - type: entity
   id: XenoArtifactPortal
@@ -1266,7 +1004,7 @@
 - type: entity
   id: XenoArtifactHealAll
   parent: BaseXenoArtifactEffect
-  description: Miraclous healing
+  description: Miraculous healing
   components:
   - type: XAEDamageInArea
     damageChance: 1
@@ -1276,12 +1014,16 @@
       - MobState
     damage:
       types:
-        Blunt: -100
-        Piercing: -100
-        Slash: -100
-        Heat: -100
-        Cold: -100
-        Shock: -100
+        Blunt: -50
+        Piercing: -50
+        Slash: -50
+        Heat: -50
+        Cold: -50
+        Shock: -50
+        Caustic: -50
+        Poison: -50
+        Radiation: -50
+        Cellular: -50
 
 - type: entity
   id: XenoArtifactTesla
@@ -1297,7 +1039,7 @@
       spawnDetached: true
       table: !type:AllSelector
         children:
-        - id: Singularity
+        - id: TeslaEnergyBall
 
 - type: entity
   id: XenoArtifactSingularity
@@ -1313,7 +1055,7 @@
       spawnDetached: true
       table: !type:AllSelector
         children:
-        - id: TeslaEnergyBall
+        - id: Singularity
 
 - type: entity
   id: XenoArtifactExplosionScary

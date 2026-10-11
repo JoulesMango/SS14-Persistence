@@ -90,6 +90,7 @@ bounty-item-plastic = Plastic sheets
 bounty-item-wood = Wood planks
 bounty-item-bananium = Bananium bunch
 bounty-item-uranium = Uranium sheets
+bounty-item-titanium = Titanium sheets
 bounty-item-coal = Coal
 bounty-item-lvcable = LV cable
 bounty-item-mvcable = MV cable
@@ -101,7 +102,7 @@ bounty-item-ripleyrightarm = Ripley right arm
 bounty-item-ripleyleftarm = Ripley left arm
 bounty-item-ripleycentral =  Ripley central control module
 bounty-item-ripleyperipheral = Ripley peripheral control module
-bounty-item-powercell = Power cell
+bounty-item-powercell = Medium Powercell
 bounty-item-anomalyscanner = Anomaly scanner
 bounty-item-anomalylocator = Anomaly locator
 bounty-item-apeboard = A.P.E. machine board
@@ -135,6 +136,11 @@ bounty-item-frostoil = Frost Oil
 bounty-item-opporozidone = Opporozidone
 bounty-item-liquid-desoxyephedrine = Liquid Desoxyephedrine
 bounty-item-liquid-space-mirage = Liquid Space Mirage
+
+#Persistence 14
+
+bounty-item-weh-plushie = Lizard plushies
+bounty-item-handy-flag = Handy flag
 
 bounty-description-artifact = NanoTrasen is in some hot water for stealing artifacts from non-spacefaring planets. Return one and we'll compensate you for it.
 bounty-description-baseball-bat = Baseball fever is going on at CentComm! Be a dear and ship them some baseball bats, so that management can live out their childhood dream.
@@ -217,9 +223,12 @@ bounty-description-plasma = Don't tell anybody about this... xoxoxo
 bounty-description-plastic = Why's it so difficult to get my hand on this stuff these days? Paying a premium for these since it's ridiculously asinine to actually make this...
 bounty-description-wood = My brand new office has a dingy metal floor... I'd love something classier, more... romantic. More suave, and sophisticated. Give me some fine wood from only the finest of plants.
 bounty-description-bananium = We think we've found a use for Bananium other than giving it to the clown! Only one way to find out - we're buying some at a high price!
+bounty-description-titanium = Titanium is handy for high-strength construction. Send us some and we'll pay you for the trouble.
 bounty-description-uranium = Our S.U.P.E.R.P.A.C. is out, and we're on backup power... please send some Uranium before that goes out too! We're sort of desperate here...
 bounty-description-coal = I may or may not be stuffing these in the sock drawer of my coworkers... That shouldn't matter to you so take my order, fulfill it and buzz off!
 bounty-description-diamond = My pet fox needs a new diamond studded collar as she chewed up her old one, getting slobber all over her old diamonds. We can't have that...! Give me new diamonds, I'll make it worth your while.
+bounty-item-phoronalloy = Phoron alloy
+bounty-description-phoronalloy = We've got a use for phoron alloy and we'd rather not source it ourselves. Send it up and we'll compensate you.
 bounty-description-ripley = We're down an industrial miner vessel (and a miner - don't ask) and need a replacement unit. Send an assembly kit for us to put together. The crew down here is into BATTLECHECK building.
 bounty-description-anomalyscience = This idiotic Dr. Leeman triggered an anomaly from our artifact and we can't find it! It's, uh, sort of urgent - so please send us the stuff to find and neutralize it! Please...
 bounty-description-bear = I want one'o them fancy schmancy Ol' Sollian Bearhide Hats that's on the medias these days. Gimme one, along with some meat to make jerky with.

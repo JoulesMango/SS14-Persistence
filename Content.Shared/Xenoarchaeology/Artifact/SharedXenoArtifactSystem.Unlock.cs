@@ -10,8 +10,6 @@ namespace Content.Shared.Xenoarchaeology.Artifact;
 
 public abstract partial class SharedXenoArtifactSystem
 {
-    [Dependency] private readonly SharedAudioSystem _audio = default!;
-
     private EntityQuery<XenoArtifactUnlockingComponent> _unlockingQuery;
 
     private void InitializeUnlock()
@@ -72,15 +70,15 @@ public abstract partial class SharedXenoArtifactSystem
         XenoArtifactUnlockingComponent unlockingComponent = ent;
 
         SoundSpecifier? soundEffect;
-        if (TryGetNodeFromUnlockState(ent, out var node))
+        if (TryGetNodeFromUnlockState(ent, out var node, out var artifexiumFraction))
         {
+            // Record how much of this node's unlock artifexium covered before its point value is computed.
+            node.Value.Comp.ArtifexiumUnlockFraction = artifexiumFraction;
             SetNodeUnlocked((ent, artifactComponent), node.Value);
             ActivateNode((ent, ent), (node.Value, node.Value), null, null, Transform(ent).Coordinates, false);
             unlockAttemptResultMsg = "artifact-unlock-state-end-success";
+            UpdateNodeResearchValue(node.Value);
 
-            // as an experiment - unlocking node doesn't activate it, activation is left for player to decide.
-            // var activated = ActivateNode((ent, artifactComponent), node.Value, null, null, Transform(ent).Coordinates, false);
-            // if (activated)
             soundEffect = unlockingComponent.UnlockActivationSuccessfulSound;
         }
         else
@@ -111,11 +109,13 @@ public abstract partial class SharedXenoArtifactSystem
     /// </summary>
     public bool TryGetNodeFromUnlockState(
         Entity<XenoArtifactUnlockingComponent, XenoArtifactComponent> ent,
-        [NotNullWhen(true)] out Entity<XenoArtifactNodeComponent>? node
+        [NotNullWhen(true)] out Entity<XenoArtifactNodeComponent>? node,
+        out float artifexiumFraction
     )
     {
         node = null;
-        var potentialNodes = new ValueList<Entity<XenoArtifactNodeComponent>>();
+        artifexiumFraction = 0f;
+        var potentialNodes = new ValueList<(Entity<XenoArtifactNodeComponent> Node, float Fraction)>();
 
         var artifactUnlockingComponent = ent.Comp1;
         foreach (var nodeIndex in GetAllNodeIndices((ent, ent)))
@@ -128,28 +128,39 @@ public abstract partial class SharedXenoArtifactSystem
             var requiredIndices = GetPredecessorNodes((ent, artifactComponent), nodeIndex);
             requiredIndices.Add(nodeIndex);
 
-            if (!ent.Comp1.ArtifexiumApplied)
+            if (artifactUnlockingComponent.ArtifexiumScale <= 0f)
             {
-                // Make sure the two sets are identical
+                // No artifexium: triggered set must match the required set exactly.
                 if (requiredIndices.Count != artifactUnlockingComponent.TriggeredNodeIndexes.Count
                     || !artifactUnlockingComponent.TriggeredNodeIndexes.All(requiredIndices.Contains))
                     continue;
 
                 node = curNode;
+                artifexiumFraction = 0f; // unlocked normally, no penalty
                 return true; // exit early
             }
 
-            // If we apply artifexium, check that the sets are identical EXCEPT for one extra node.
-            // This node is a "wildcard" and we'll make a pool so we can pick one to actually unlock.
-            if (!artifactUnlockingComponent.TriggeredNodeIndexes.All(requiredIndices.Contains) ||
-                requiredIndices.Count - 1 != artifactUnlockingComponent.TriggeredNodeIndexes.Count)
+            // With artifexium: triggered set must be a subset of the required set, and artifexium must
+            // cover every trigger that wasn't performed manually (ArtifexiumCostPerTrigger units each).
+            if (!artifactUnlockingComponent.TriggeredNodeIndexes.All(requiredIndices.Contains))
                 continue;
 
-            potentialNodes.Add(curNode);
+            var missingTriggers = requiredIndices.Count - artifactUnlockingComponent.TriggeredNodeIndexes.Count;
+            var wildcardsAvailable = (int) (artifactUnlockingComponent.ArtifexiumScale / artifactComponent.ArtifexiumCostPerTrigger);
+            if (missingTriggers > wildcardsAvailable)
+                continue;
+
+            // Fraction of this node's triggers that artifexium covered rather than being triggered manually.
+            var fraction = requiredIndices.Count > 0 ? (float) missingTriggers / requiredIndices.Count : 0f;
+            potentialNodes.Add((curNode, fraction));
         }
 
         if (potentialNodes.Count != 0)
-            node = RobustRandom.Pick(potentialNodes);
+        {
+            var picked = RobustRandom.Pick(potentialNodes);
+            node = picked.Node;
+            artifexiumFraction = picked.Fraction;
+        }
 
         return node != null;
     }

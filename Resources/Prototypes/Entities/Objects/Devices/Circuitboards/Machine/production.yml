@@ -220,6 +220,16 @@
       Manipulator: 3
 
 - type: entity
+  id: PlushieLatheCircuitboard
+  parent: BaseMachineCircuitboard
+  name: plushie lathe machine board
+  components:
+  - type: MachineBoard
+    prototype: PlushieLathe
+    stackRequirements:
+      Manipulator: 3
+
+- type: entity
   id: VaccinatorMachineCircuitboard
   parent: BaseMachineCircuitboard
   name: vaccinator machine board
@@ -269,6 +279,23 @@
       stackRequirements:
         Manipulator: 1
         Glass: 5
+
+- type: entity
+  id: ArtifactAnalyzerAdvancedMachineCircuitboard
+  parent: BaseMachineCircuitboard
+  name: advanced artifact analyzer machine board
+  description: A machine printed circuit board for an advanced artifact analyzer.
+  components:
+    - type: Sprite
+      state: science
+    - type: MachineBoard
+      prototype: MachineArtifactAnalyzerAdvanced
+      stackRequirements:
+        Manipulator: 4
+        Steel: 5
+        Glass: 5
+        Uranium: 1
+        Plasma: 3
 
 - type: entity
   id: ArtifactCrusherMachineCircuitboard
@@ -464,6 +491,30 @@
       Manipulator: 3
       Cable: 5
 
+# Start Persistence: make atmos fans into machines
+- type: entity
+  id: AtmosDeviceFanTinyMachineCircuitBoard
+  parent: BaseMachineCircuitboard
+  name: tiny fan machine board
+  description: A machine printed circuit board for a tiny fan.
+  components:
+  - type: Sprite
+    state: engineering
+  - type: MachineBoard
+    prototype: AtmosDeviceFanTiny
+
+- type: entity
+  id: AtmosDeviceFanDirectionalMachineCircuitBoard
+  parent: BaseMachineCircuitboard
+  name: directional fan machine board
+  description: A machine printed circuit board for a directional fan.
+  components:
+  - type: Sprite
+    state: engineering
+  - type: MachineBoard
+    prototype: AtmosDeviceFanDirectional
+# End Persistence
+
 - type: entity
   id: CloningPodMachineCircuitboard
   parent: BaseMachineCircuitboard
@@ -576,6 +627,25 @@
         amount: 2
         defaultPrototype: KitchenKnife
         examineName: construction-insert-info-examine-name-knife
+- type: entity
+  id: ButcheringMachineCircuitboard
+  parent: BaseMachineCircuitboard
+  name: industrial butchering machine board
+  description: A machine printed circuit board for an industrial butcherer.
+  components:
+  - type: Sprite
+    state: service
+  - type: MachineBoard
+    prototype: ButcheringMachine
+    stackRequirements:
+      Manipulator: 3
+      Steel: 5
+    tagRequirements:
+      Knife:
+        amount: 2
+        defaultPrototype: KitchenKnife
+        examineName: construction-insert-info-examine-name-knife
+
 
 - type: entity
   id: HydroponicsTrayMachineCircuitboard
@@ -878,6 +948,19 @@
     stackRequirements:
       Manipulator: 3
       Glass: 2
+
+- type: entity
+  id: GyroscopeFloorMachineCircuitboard
+  parent: BaseMachineCircuitboard
+  name: subfloor gyroscope machine board
+  components:
+  - type: Sprite
+    state: supply
+  - type: MachineBoard
+    prototype: GyroscopeFloor
+    stackRequirements:
+      Manipulator: 1
+      Glass: 1
 
 - type: entity
   id: PortableGeneratorSuperPacmanMachineCircuitboard
@@ -1349,6 +1432,23 @@
       Steel: 5
 
 - type: entity
+  id: MixingMachineCircuitboard
+  parent: BaseMachineCircuitboard
+  name: mixing machine board
+  description: A machine printed circuit board for a mixing machine.
+  components:
+    - type: Sprite
+      state: service
+    - type: MachineBoard
+      prototype: MixingMachineEmpty
+      stackRequirements:
+        Steel: 5
+      tagRequirements:
+          GlassBeaker:
+            amount: 1
+            defaultPrototype: Beaker
+- type: entity
+
   id: SodaDispenserMachineCircuitboard
   parent: BaseMachineCircuitboard
   name: soda dispenser machine board
@@ -1380,7 +1480,7 @@
       Cable: 2
 
 - type: entity
-  id: TelecomServer1kCircuitboard
+  id: TelecomServerAdvancedCircuitboard
   parent: BaseMachineCircuitboard
   name: high tech telecommunication server machine board
   description: A machine printed circuit board for an high tech telecommunication server.
@@ -1388,7 +1488,7 @@
   - type: Sprite
     state: engineering
   - type: MachineBoard
-    prototype: TelecomServer1k
+    prototype: AdvancedTelecomServer
     stackRequirements:
       Steel: 1
       Cable: 2

@@ -13,6 +13,8 @@
       collection: bottleCloseSounds
   - type: FitsInDispenser
     solution: drink
+  - type: BountySolution
+    solution: drink
   - type: ExaminableSolution
     exactVolume: true # It's a chemistry tool
   - type: Tag
@@ -42,7 +44,7 @@
   - type: SolutionTransfer
     maxTransferAmount: 30
   - type: StaticPrice
-    price: 100
+    price: 40
   - type: Destructible
     thresholds:
     - trigger: &DamageTrigger100
@@ -88,7 +90,7 @@
   - type: SolutionTransfer
     maxTransferAmount: 10
   - type: StaticPrice
-    price: 50
+    price: 30
   - type: PhysicalComposition
     materialComposition:
       Glass: 10

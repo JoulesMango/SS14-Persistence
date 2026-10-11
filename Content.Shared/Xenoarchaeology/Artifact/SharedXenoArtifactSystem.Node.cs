@@ -1,9 +1,14 @@
 using System.Linq;
+using Content.Shared._Persistence14.Log;
+using Content.Shared._Persistence14.Random;
+using Content.Shared.Database;
 using Content.Shared.EntityTable;
 using Content.Shared.NameIdentifier;
 using Content.Shared.Xenoarchaeology.Artifact.Components;
 using Content.Shared.Xenoarchaeology.Artifact.Prototypes;
+using Robust.Shared.Audio.Systems;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Random;
 using Robust.Shared.Utility;
 
 namespace Content.Shared.Xenoarchaeology.Artifact;
@@ -64,16 +69,17 @@ public abstract partial class SharedXenoArtifactSystem
     {
         if (!Resolve(ent, ref ent.Comp))
             return;
-
         SetNodeDurability(ent, ent.Comp.Durability + durabilityDelta);
     }
 
     /// <summary>
     /// Sets a node's durability to the specified value. HIGHLY recommended to not be less than 0.
     /// </summary>
-    public void SetNodeDurability(Entity<XenoArtifactNodeComponent?> ent, int durability)
+    public void SetNodeDurability(Entity<XenoArtifactNodeComponent?> ent, int durability, bool ignoreShatter = false)
     {
         if (!Resolve(ent, ref ent.Comp))
+            return;
+        if (ent.Comp.Shattered && !ignoreShatter)
             return;
 
         ent.Comp.Durability = Math.Clamp(durability, 0, ent.Comp.MaxDurability);
@@ -93,13 +99,46 @@ public abstract partial class SharedXenoArtifactSystem
     /// <summary>
     /// Creates artifact node entity, attaching trigger and marking depth level for future use.
     /// </summary>
-    public Entity<XenoArtifactNodeComponent> CreateNode(Entity<XenoArtifactComponent> ent, XenoArchTriggerPrototype trigger, int depth = 0)
+    public bool TryCreateNode(Entity<XenoArtifactComponent> ent, out Entity<XenoArtifactNodeComponent> entity, int depth = 0)
     {
-        var entProtoId = _entityTable.GetSpawns(ent.Comp.EffectsTable)
-                                     .First();
+        entity = default!;
+        // Get the correct table based on the depth of the node. Deeper nodes have more valuable options.
+        var effectsByDepth = depth <= ent.Comp.RootNodeThreshold ? ent.Comp.RootEffectsTable :
+            depth >= ent.Comp.DeepNodeThreshold ? ent.Comp.DeepEffectsTable :
+            ent.Comp.MainEffectsTable;
 
-        AddNode((ent, ent), entProtoId, out var nodeEnt, dirty: false);
-        DebugTools.Assert(nodeEnt.HasValue, "Failed to create node on artifact.");
+        var possibleTriggersByDepth = depth <= ent.Comp.RootNodeThreshold ? ent.Comp.PossibleRootTriggers :
+            depth >= ent.Comp.DeepNodeThreshold ? ent.Comp.PossibleDeepTriggers :
+            ent.Comp.PossibleMainTriggers;
+
+        Dictionary<ProtoId<XenoArchTriggerPrototype>, float>[] otherTables =
+            depth <= ent.Comp.RootNodeThreshold ? [ent.Comp.PossibleDeepTriggers, ent.Comp.PossibleMainTriggers] :
+            depth >= ent.Comp.DeepNodeThreshold ? [ent.Comp.PossibleMainTriggers, ent.Comp.PossibleRootTriggers] :
+            [ent.Comp.PossibleDeepTriggers, ent.Comp.PossibleRootTriggers];
+
+        var triggerId = RobustRandom.PickAndTakeWeighted(possibleTriggersByDepth).FirstOrNull();
+        if (triggerId is null)
+            return LogManager.GetSawmill("xeno-artifact-system").WarningFalse($"Insufficient artifacts triggers to generate node.");
+        foreach (var table in otherTables) // Clear duplicate IDs from other tables.
+            table.Remove(triggerId.Value);
+
+        var trigger = PrototypeManager.Index(triggerId);
+
+        foreach (var incompatible in trigger.IncompatibleTriggers)
+        {
+            possibleTriggersByDepth.Remove(incompatible);
+            foreach (var table in otherTables)
+                table.Remove(incompatible);
+        }
+
+        var spawns = _entityTable.GetSpawns(effectsByDepth);
+        if (!spawns.Any())
+            return LogManager.GetSawmill("xeno-artifact-system").ErrorFalse($"Insufficient artifact effects to generate node. This really shouldn't happen...");
+        var nodeProtoId = spawns.First();
+
+        AddNode((ent, ent), nodeProtoId, out var nodeEnt, dirty: false);
+        if (nodeEnt is null)
+            return LogManager.GetSawmill("xeno-artifact-system").ErrorFalse($"Failed to add artifact node to artifact...");
 
         var nodeComponent = nodeEnt.Value.Comp;
         nodeComponent.Depth = depth;
@@ -107,7 +146,8 @@ public abstract partial class SharedXenoArtifactSystem
         EntityManager.AddComponents(nodeEnt.Value, trigger.Components);
 
         Dirty(nodeEnt.Value);
-        return nodeEnt.Value;
+        entity = nodeEnt.Value;
+        return true;
     }
 
     /// <summary> Checks if all predecessor nodes are marked as 'unlocked'. </summary>
@@ -374,21 +414,60 @@ public abstract partial class SharedXenoArtifactSystem
     /// </summary>
     public void UpdateNodeResearchValue(Entity<XenoArtifactNodeComponent> node)
     {
+        // ResearchValue is a networked, server-authoritative field. If the client recomputes it
+        // locally it can drift from the server's value (e.g. from a not-yet-reconciled durability),
+        // and because extraction only changes ConsumedResearchValue the server never re-syncs
+        // ResearchValue afterwards - leaving a node permanently showing phantom extractable points
+        // that the server refuses to extract. So only ever compute it on the server.
+        if (!_net.IsServer)
+            return;
+
         XenoArtifactNodeComponent nodeComponent = node;
         if (nodeComponent.Attached == null)
         {
             nodeComponent.ResearchValue = 0;
+            Dirty(node);
             return;
         }
 
         var artifact = _xenoArtifactQuery.Get(nodeComponent.Attached.Value);
 
-        var nonactiveNodes = GetActiveNodes(artifact); // This seems like its... wrong...
-        var durabilityEffect = MathF.Pow((float)nodeComponent.Durability / nodeComponent.MaxDurability, 2);
+        var maxDurability = nodeComponent.MaxDurability <= 0 ? 1 : nodeComponent.MaxDurability;
+        var durabilityEffect = MathF.Pow((float)nodeComponent.Durability / maxDurability, 2);
         var durabilityMultiplier = nodeComponent.DurabilityResearchMultiplier - (nodeComponent.DurabilityResearchMultiplier - 1) * durabilityEffect;
 
-        var predecessorNodes = GetPredecessorNodes((artifact, artifact), node);
-        var predecessorMultiplier = Math.Pow(1.25, Math.Pow(predecessorNodes.Count, 1.5f));
-        nodeComponent.ResearchValue = (int)(nodeComponent.BasePointValue * predecessorMultiplier * durabilityMultiplier);
+        var nodeDepth = node.Comp.Depth;
+        var depthMultipler = Math.Pow(1.5f, Math.Pow(nodeDepth, 1.5f));
+        nodeComponent.ResearchValue = (int)(nodeComponent.BasePointValue * depthMultipler * durabilityMultiplier);
+
+        // Nodes that were unlocked by artifexium wildcards instead of by satisfying their triggers
+        // yield fewer points, scaled by how much of the unlock the chemical actually covered.
+        if (nodeComponent.ArtifexiumUnlockFraction > 0f)
+        {
+            var artifexiumFraction = Math.Clamp(nodeComponent.ArtifexiumUnlockFraction, 0f, 1f);
+            var penalty = nodeComponent.ArtifexiumMinPenalty + (nodeComponent.ArtifexiumMaxPenalty - nodeComponent.ArtifexiumMinPenalty) * artifexiumFraction;
+            nodeComponent.ResearchValue = (int)(nodeComponent.ResearchValue * (1f - penalty));
+        }
+
+        Dirty(node);
+    }
+
+    public void Shatter(Entity<XenoArtifactNodeComponent?> node)
+    {
+        if (!_net.IsServer)
+            return;
+
+        if (!Resolve(node, ref node.Comp))
+            return;
+
+        if (node.Comp.Shattered)
+            return;
+
+        node.Comp.ShatterPattern = RobustRandom.Pick(Enum.GetValues<ShatterPatternTypes>());
+        node.Comp.Durability = 0;
+        node.Comp.Shattered = true;
+
+        _audio.PlayPvs(node.Comp.ShatterSound, node.Owner);
+        Dirty(node);
     }
 }
