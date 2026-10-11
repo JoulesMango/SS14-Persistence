@@ -1,5 +1,6 @@
 using Content.Server.Tesla.EntitySystems;
 using Robust.Shared.Prototypes;
+using Robust.Shared.Serialization.TypeSerializers.Implementations.Custom; // Persistence: TimeOffsetSerializer
 
 namespace Content.Server.Tesla.Components;
 
@@ -16,6 +17,13 @@ public sealed partial class LightningArcShooterComponent : Component
     /// </summary>
     [DataField, ViewVariables(VVAccess.ReadWrite)]
     public int MaxLightningArc = 1;
+
+    /// <summary>
+    /// Fire instantly after spawning?
+    /// If false this entity will fire after <see cref="ShootMaxInterval"/> instead.
+    /// </summary>
+    [DataField]
+    public bool Instant = false;
 
     /// <summary>
     /// Minimum interval between shooting.
@@ -44,7 +52,7 @@ public sealed partial class LightningArcShooterComponent : Component
     /// <summary>
     /// The time, upon reaching which the next batch of lightning bolts will be fired.
     /// </summary>
-    [DataField, ViewVariables(VVAccess.ReadWrite)]
+    [DataField(customTypeSerializer: typeof(TimeOffsetSerializer)), ViewVariables(VVAccess.ReadWrite)] // Persistence: TimeOffsetSerializer
     [AutoPausedField]
     public TimeSpan NextShootTime;
 

@@ -1,6 +1,6 @@
 - type: entity
   abstract: true
-  parent: Clothing
+  parent: [SolutionFood, SolutionToolSmall, Clothing]
   id: ClothingHandsBase
   components:
   - type: Sprite
@@ -9,16 +9,17 @@
     slots: [gloves]
   - type: Edible
     requiresSpecialDigestion: true
+  - type: Solution
+    solution:
+      reagents:
+      - ReagentId: Fiber
+        Quantity: 15
   - type: Item
     size: Small
     storedRotation: -90
-  - type: SolutionContainerManager
+  - type: SolutionManager
     solutions:
-      food:
-        maxVol: 10
-        reagents:
-        - ReagentId: Fiber
-          Quantity: 10
+    - SolutionStain
   - type: Tag
     tags:
     - ClothMade
@@ -27,17 +28,24 @@
     damageProtection:
       flatReductions:
         Heat: 5 # the average lightbulb only does around four damage!
+  - type: Appearance # Funky: Footprints & Stains
+  - type: Stainable # Funky: Footprints & Stains
+    clothingVisuals:
+      gloves:
+      - sprite: /Textures/_Funkystation/Effects/blood.rsi
+        state: gloveblood
+    iconVisuals:
+    - sprite: /Textures/_Funkystation/Effects/blood.rsi
+      state: glovebloodicon
 
 - type: entity
   abstract: true
-  parent: ClothingHandsBase
+  parent: [ClothingHandsBase, BaseSlicingRefinable]
   id: ClothingHandsButcherable
   components:
-  - type: Butcherable
-    butcheringType: Knife
-    spawned:
+  - type: ToolRefinable
+    refineResult:
     - id: MaterialCloth1
-      amount: 1
   - type: PhysicalComposition # 50% of the amount of cloth you'd obtain upon butchering
     materialComposition:
       Cloth: 50

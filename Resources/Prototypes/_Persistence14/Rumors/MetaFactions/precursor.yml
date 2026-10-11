@@ -1,0 +1,94 @@
+- type: metaFaction
+  id: Precursor
+  name: Syndicate
+  description: "The Syndicate controls the Precursor Universe."
+  rumors:
+    - DrinkBasicEvil
+    - EatBasicEvil
+    - PrayBasicEvil
+  color: Purple
+  levels:
+    Precursor2: 150
+    Precursor3: 500
+    Precursor4: 1000
+
+- type: metaFactionLevel
+  id: Precursor2
+  name: Associate
+  rumorRewards:
+    - PrecursorUpgradeModule
+    - TradeGood
+    - PrecursorMerchCrate
+  rewardsToOffer: 1
+
+
+- type: metaFactionLevel
+  id: Precursor3
+  name: Agent
+  rumorRewards:
+    - PrecursorUpgradeModule
+    - TradeGood
+    - PrecursorPJs
+    - PrecursorCarpSuitBag
+    - PrecursorViper
+    - PrecursorPython
+    - PrecursorKnifeKit
+    - PrecursorKnuckleDusters
+    - PrecursorRiggedBoxingGloves
+    - PrecursorMicrowave
+    - PrecursorChemKit
+    - PrecursorHyperzinePen
+    - PrecursorCigarettes
+    - PrecursorDefib
+    - PrecursorJaws
+    - PrecursorStealthBox
+    - PrecursorFlashCamera
+    - PrecursorDecoy
+    - PrecursorSoapSyndie
+    - PrecursorToolbox
+    - PrecursorFakeMindshield
+    - PrecursorWebbing
+    - PrecursorMagBoots
+    - PrecursorSyndieEva
+    - PrecursorCobra
+    - PrecursorECrossbow
+    - PrecursorGlovesNorthStar
+    - PrecursorHushpup
+    - PrecursorHypopen
+    - PrecursorHypoDart
+    - PrecursorHyperzineKit
+    - PrecursorSoapSyndieCluster
+    - PrecursorCameraBug
+    - PrecursorStorageImplanter
+    - PrecursorFreedomImplanter
+    - PrecursorNoSlips
+    - PrecursorVestArmor
+    - PrecursorVestArmorElite
+    - PrecursorHardsuitSyndie
+    - PrecursorCarpHardsuit
+    - PrecursorRaidSuit
+  rewardsToOffer: 2
+
+- type: metaFactionLevel
+  id: Precursor4
+  name: Master Agent
+  rumorRewards:
+    - PrecursorUpgradeModule
+    - TradeGood
+    - PrecursorESword
+    - PrecursorEDagger
+    - PrecursorECrossbow
+    - PrecursorGlovesNorthStar
+    - PrecursorEShield
+    - PrecursorC-20r
+    - PrecursorL-6SawBundle
+    - PrecursorAccessBreaker
+    - PrecursorRadioJammer
+    - PrecursorChameleonProjector
+    - PrecursorScramImplanter
+    - PrecursorVoiceMaskImplanter
+    - PrecursorChameleon
+    - PrecursorHardsuitSyndieElite
+    - PrecursorHardsuitSyndieJug
+  rewardsToOffer: 2
+

@@ -25,6 +25,8 @@
     children:
     - !type:NestedSelector
       tableId: AllLizardPlushieTable
+    - !type:NestedSelector
+      tableId: AllPersistencePlushiesTable
     - id: PlushieNuke
     - id: PlushieSlime
     - id: PlushieSnake
@@ -39,6 +41,8 @@
     - id: PlushieArachind
     - id: PlushiePenguin
     - id: PlushieVulp
+    - id: PlushieSheep
+    - id: PlushieSpaceSheep
     - !type:GroupSelector
       children:
       - id: PlushieBee

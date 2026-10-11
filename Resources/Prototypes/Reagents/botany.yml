@@ -12,7 +12,8 @@
   metabolisms:
     Digestion:
       effects:
-      - !type:SatiateHunger
+      - !type:Satiate
+        satiationType: Hunger
         conditions:
         - !type:MetabolizerTypeCondition
           type: [Plant]
@@ -36,7 +37,8 @@
   metabolisms:
     Bloodstream:
       effects:
-      - !type:SatiateHunger
+      - !type:Satiate
+        satiationType: Hunger
         conditions:
         - !type:MetabolizerTypeCondition
           type: [Plant]
@@ -89,6 +91,9 @@
       amount: -20
     - !type:PlantAdjustMutationMod
       amount: 0.1
+    - !type:PlantChangeTraits
+      trait: PlantTraitKudzu
+      remove: true
   metabolisms:
     Bloodstream:
       effects:
@@ -222,7 +227,7 @@
       - !type:HealthChange
         conditions:
         - !type:MetabolizerTypeCondition
-          type: [ Rat ]
+          type: [ Rat, Avali ]
           inverted: true
         - !type:ReagentCondition
           reagent: Ammonia
@@ -236,7 +241,7 @@
         probability: 0.12
         conditions:
         - !type:MetabolizerTypeCondition
-          type: [ Rat, Vox ]
+          type: [ Rat, Vox, Avali ]
           inverted: true
         - !type:ReagentCondition
           reagent: Ammonia
@@ -250,10 +255,12 @@
         - !type:ReagentCondition
           reagent: Ammonia
           min: 0.25
+        - !type:MetabolizerTypeCondition
+          type: [Rat, Vox, Avali]
       - !type:EvenHealthChange
         conditions:
         - !type:MetabolizerTypeCondition
-          type: [ Rat ]
+          type: [ Rat, Vox, Avali ]
         - !type:ReagentCondition
           reagent: Ammonia
           min: 1

@@ -18,17 +18,16 @@ using System.Linq;
 
 namespace Content.Server.Salvage.JobBoard;
 
-public sealed class SalvageJobBoardSystem : EntitySystem
+public sealed partial class SalvageJobBoardSystem : EntitySystem
 {
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
-    [Dependency] private readonly AudioSystem _audio = default!;
-    [Dependency] private readonly CargoSystem _cargo = default!;
-    [Dependency] private readonly LabelSystem _label = default!;
-    [Dependency] private readonly PaperSystem _paper = default!;
-    [Dependency] private readonly RadioSystem _radio = default!;
-    [Dependency] private readonly StationSystem _station = default!;
-    [Dependency] private readonly UserInterfaceSystem _ui = default!;
+    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private AudioSystem _audio = default!;
+    [Dependency] private CargoSystem _cargo = default!;
+    [Dependency] private LabelSystem _label = default!;
+    [Dependency] private PaperSystem _paper = default!;
+    [Dependency] private RadioSystem _radio = default!;
+    [Dependency] private StationSystem _station = default!;
+    [Dependency] private UserInterfaceSystem _ui = default!;
 
     /// <summary>
     /// Radio channel that unlock messages are broadcast on.
@@ -78,7 +77,7 @@ public sealed class SalvageJobBoardSystem : EntitySystem
             availableGroups.Add(rank.BountyGroup.Value);
         }
 
-        foreach (var bounty in _prototypeManager.EnumeratePrototypes<CargoBountyPrototype>())
+        foreach (var bounty in ProtoMan.EnumeratePrototypes<CargoBountyPrototype>())
         {
             if (ent.Comp.CompletedJobs.Contains(bounty))
                 continue;
@@ -110,7 +109,7 @@ public sealed class SalvageJobBoardSystem : EntitySystem
             // don't worry abooouuuuut it (it'll be O K !)
             var high = i != ent.Comp.RankThresholds.Count - 1
                 ? ent.Comp.RankThresholds.Keys.ElementAt(i + 1)
-                : _prototypeManager.EnumeratePrototypes<CargoBountyPrototype>()
+                : ProtoMan.EnumeratePrototypes<CargoBountyPrototype>()
                 .Count(p => ent.Comp.RankThresholds.Values
                     .Select(r => r.BountyGroup)
                     .Contains(p.Group));
@@ -160,7 +159,7 @@ public sealed class SalvageJobBoardSystem : EntitySystem
         if (!GetAvailableJobs(ent).Contains(job))
             return false;
 
-        var jobProto = _prototypeManager.Index(job);
+        var jobProto = ProtoMan.Index(job);
 
         var oldRank = GetRank(ent);
 
@@ -233,7 +232,7 @@ public sealed class SalvageJobBoardSystem : EntitySystem
             return false;
 
 
-        if (!_cargo.IsBountyComplete(uid, job))
+        if (!_cargo.IsBountyComplete(uid, job.Value))
             return false;
 
         return true;
@@ -260,7 +259,7 @@ public sealed class SalvageJobBoardSystem : EntitySystem
             !TryComp<SalvageJobsDataComponent>(station, out var jobsData))
             return;
 
-        if (!_prototypeManager.TryIndex<CargoBountyPrototype>(args.JobId, out var job))
+        if (!ProtoMan.TryIndex<CargoBountyPrototype>(args.JobId, out var job))
             return;
 
         if (!GetAvailableJobs((station, jobsData)).Contains(args.JobId))
@@ -271,11 +270,9 @@ public sealed class SalvageJobBoardSystem : EntitySystem
         EnsureComp<JobBoardLabelComponent>(label).JobId = job.ID;
 
         var target = new List<string>();
-        foreach (var entry in job.Entries)
+        foreach (var entry in job.Condition.GetManifestEntry(EntityManager, ProtoMan))
         {
-            target.Add(Loc.GetString("bounty-console-manifest-entry",
-                ("amount", entry.Amount),
-                ("item", Loc.GetString(entry.Name))));
+            target.Add(entry);
         }
         _paper.SetContent(label, Loc.GetString("job-board-label-text", ("target", string.Join(',', target)), ("reward", job.Reward)));
 

@@ -2,6 +2,7 @@ using Content.Server.Body.Systems;
 using Content.Server.Medical.Components;
 using Content.Shared.Body.Components;
 using Content.Shared.Chemistry.EntitySystems;
+using Content.Shared.Chemistry.Reagent; // Persistence: Display bloodstream contents in health analyzers
 using Content.Shared.Damage.Components;
 using Content.Shared.DoAfter;
 using Content.Shared.Hands.Components;
@@ -21,10 +22,11 @@ using Robust.Server.GameObjects;
 using Robust.Shared.Audio.Systems;
 using Robust.Shared.Containers;
 using Robust.Shared.Timing;
+using Content.Shared.Body.Systems;
 
 namespace Content.Server.Medical;
 
-public sealed class HealthAnalyzerSystem : EntitySystem
+public sealed partial class HealthAnalyzerSystem : EntitySystem
 {
     [Dependency] private readonly IGameTiming _timing = default!;
     [Dependency] private readonly PowerCellSystem _cell = default!;
@@ -241,16 +243,18 @@ public sealed class HealthAnalyzerSystem : EntitySystem
         var bodyTemperature = float.NaN;
 
         if (TryComp<TemperatureComponent>(entity, out var temp))
-            bodyTemperature = temp.CurrentTemperature;
+            bodyTemperature = temp.Temperature;
 
         var bloodAmount = float.NaN;
         var bleeding = false;
         var unrevivable = false;
+        var bloodContents = new List<ReagentQuantity>(); // Persistence: Display bloodstream contents in health analyzers
 
         if (TryComp<BloodstreamComponent>(entity, out var bloodstream) &&
             _solutionContainerSystem.ResolveSolution(entity, bloodstream.BloodSolutionName,
                 ref bloodstream.BloodSolution, out var bloodSolution))
         {
+            bloodContents = bloodSolution.Contents; // Persistence: Display bloodstream contents in health analyzers
             bloodAmount = _bloodstreamSystem.GetBloodLevel(entity);
             bleeding = bloodstream.BleedAmount > 0;
         }
@@ -264,7 +268,8 @@ public sealed class HealthAnalyzerSystem : EntitySystem
             bloodAmount,
             null,
             bleeding,
-            unrevivable
+            unrevivable,
+            bloodContents // Persistence: Display bloodstream contents in health analyzers
         );
     }
 }

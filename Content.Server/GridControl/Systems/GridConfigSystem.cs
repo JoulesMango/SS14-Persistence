@@ -5,6 +5,7 @@ using Content.Server.Station.Systems;
 using Content.Shared.Access.Components;
 using Content.Shared.Access.Systems;
 using Content.Shared.Administration.Logs;
+using Content.Shared.Cargo.Components;
 using Content.Shared.Containers.ItemSlots;
 using Content.Shared.CrewAssignments.Components;
 using Content.Shared.CrewAssignments.Prototypes;
@@ -30,21 +31,21 @@ using static Content.Shared.GridControl.Components.StationCreatorComponent;
 namespace Content.Server.GridControl.Systems;
 
 [UsedImplicitly]
-public sealed class GridConfigSystem : SharedGridConfigSystem
+public sealed partial class GridConfigSystem : SharedGridConfigSystem
 {
-    [Dependency] private readonly IEntityManager _entManager = default!;
-    [Dependency] private readonly UserInterfaceSystem _userInterface = default!;
-    [Dependency] private readonly AccessReaderSystem _accessReader = default!;
-    [Dependency] private readonly SharedInteractionSystem _interactionSystem = default!;
-    [Dependency] private readonly PopupSystem _popupSystem = default!;
-    [Dependency] private readonly SharedDoAfterSystem _doAfterSystem = default!;
-    [Dependency] private readonly StationSystem _station = default!;
-    [Dependency] private readonly TransformSystem _transform = default!;
-    [Dependency] private readonly MetaDataSystem _metaData = default!;
-    [Dependency] private readonly ItemSlotsSystem _itemSlots = default!;
-    [Dependency] private readonly MapSystem _mapSystem = default!;
-    [Dependency] private readonly IPrototypeManager _protoMan = default!;
-    [Dependency] private readonly CrewMetaRecordsSystem _crewMeta = default!;
+    [Dependency] private IEntityManager _entManager = default!;
+    [Dependency] private UserInterfaceSystem _userInterface = default!;
+    [Dependency] private AccessReaderSystem _accessReader = default!;
+    [Dependency] private SharedInteractionSystem _interactionSystem = default!;
+    [Dependency] private PopupSystem _popupSystem = default!;
+    [Dependency] private SharedDoAfterSystem _doAfterSystem = default!;
+    [Dependency] private StationSystem _station = default!;
+    [Dependency] private TransformSystem _transform = default!;
+    [Dependency] private MetaDataSystem _metaData = default!;
+    [Dependency] private ItemSlotsSystem _itemSlots = default!;
+    [Dependency] private MapSystem _mapSystem = default!;
+    [Dependency] private IPrototypeManager _protoMan = default!;
+    [Dependency] private CrewMetaRecordsSystem _crewMeta = default!;
     public override void Initialize()
     {
         base.Initialize();
@@ -65,7 +66,8 @@ public sealed class GridConfigSystem : SharedGridConfigSystem
 
         Subs.BuiEvents<GridConfigComponent>(GridConfigUiKey.Key, subs =>
         {
-            subs.Event<BoundUIOpenedEvent>(UpdateUserInterface);
+            subs.Event<BoundUIOpenedEvent>(OnUiOpened);
+            subs.Event<BoundUIClosedEvent>(OnUiClosed);
             subs.Event<GridConfigChangeName>(OnChangeName);
             subs.Event<GridConfigTargetSelect>(OnTargetSelect);
             subs.Event<GridConfigChangeMode>(OnChangeMode);
@@ -94,6 +96,23 @@ public sealed class GridConfigSystem : SharedGridConfigSystem
             subs.Event<GridControlOff>(OnGridControlOff);
         });
 
+    }
+
+    /// <summary>
+    /// makes the screen animation visible when the user opens the UI
+    /// </summary>
+    private void OnUiOpened(EntityUid uid, GridConfigComponent component, BoundUIOpenedEvent args)
+    {
+        UpdateScreenAppearance(uid, true);
+        UpdateUserInterface(uid, component, args);
+    }
+
+    /// <summary>
+    /// makes the screen animation invisible when the user closes the UI
+    /// </summary>
+    private void OnUiClosed(EntityUid uid, GridConfigComponent component, BoundUIClosedEvent args)
+    {
+        UpdateScreenAppearance(uid, false);
     }
 
     private void OnUnlink(EntityUid uid, StationTaggerComponent component, EntityEventArgs args)
@@ -438,7 +457,7 @@ public sealed class GridConfigSystem : SharedGridConfigSystem
         if (args.StationName == null || args.StationName == "") return;
         StationConfig config = new();
         config.StationPrototype = "StandardNanotrasenStation";
-        _station.InitializeNewStation(config, null, args.StationName, realName);
+        _station.InitializeNewStation(config, null, args.StationName);
         if (idCard != null)
         {
             _popupSystem.PopupEntity($"The station {args.StationName} was created.", idCard.Value);
@@ -714,6 +733,10 @@ public sealed class GridConfigSystem : SharedGridConfigSystem
             else
             {
                 errMsg = "Trade stations cannot be claimed by individuals";
+            }
+            if(tradeStation.ExperiencePoints < 5)
+            {
+                errMsg = "A minimum of five trade nodes must be on board to claim the trade station.";
             }
         }
         newState = new GridConfigBoundUserInterfaceState(

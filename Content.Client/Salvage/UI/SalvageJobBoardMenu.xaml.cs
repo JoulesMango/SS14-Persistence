@@ -10,8 +10,8 @@ namespace Content.Client.Salvage.UI;
 [GenerateTypedNameReferences]
 public sealed partial class SalvageJobBoardMenu : FancyWindow
 {
-    [Dependency] private readonly IEntityManager _entityManager = default!;
-    [Dependency] private readonly IPrototypeManager _prototypeManager = default!;
+    [Dependency] private IEntityManager _entityManager = default!;
+    [Dependency] private IPrototypeManager _prototypeManager = default!;
 
     public Action<string>? OnLabelButtonPressed;
 
@@ -29,7 +29,7 @@ public sealed partial class SalvageJobBoardMenu : FancyWindow
         CurrentJobContainer.Children.Clear();
         foreach (var job in state.AvailableJobs)
         {
-            var entry = new JobEntry(_prototypeManager.Index(job), _entityManager);
+            var entry = new JobEntry(_prototypeManager.Index(job), _entityManager, _prototypeManager);
             entry.OnLabelButtonPressed += () => OnLabelButtonPressed?.Invoke(job);
 
             CurrentJobContainer.AddChild(entry);

@@ -1,0 +1,34 @@
+- type: metaFaction
+  id: Marines
+  name: UNMC Remnant
+  description: "The UNMC controls the Marines Universe."
+  rumors:
+    - DrinkBasicFriendly
+    - EatBasicFriendly
+    - DrinkBasicEvil
+  color: Olive
+  levels:
+    Marines2: 150
+    Marines3: 500
+    Marines4: 1000
+
+- type: metaFactionLevel
+  id: Marines2
+  name: Associate
+  rumorRewards:
+    - MarineUpgradeModule
+    - TradeGood
+  rewardsToOffer: 1
+
+- type: metaFactionLevel
+  id: Marines3
+  name: Officer
+  rumorRewards:
+    - MarineUpgradeModule
+    - TradeGood
+  rewardsToOffer: 2
+
+- type: metaFactionLevel
+  id: Marines4
+  name: Commander
+

@@ -1,0 +1,41 @@
+- type: metaFaction
+  id: Green
+  name: Nanotrasen
+  description: "Nanotrasen controls the Green Universe."
+  rumors:
+    - DrinkBasicFriendly
+    - EatBasicFriendly
+    - PrayBasicFriendly
+  color: Green
+  levels:
+    Green2: 150
+    Green3: 500
+    Green4: 1000
+
+
+- type: metaFactionLevel
+  id: Green2
+  name: Associate
+  rumorRewards:
+    - GreenUpgradeModule
+    - TradeGood
+    - GreenPlasmaCrate
+    - GreenMerchCrate
+    - GreenFlippoWelder
+    - GreenPhoronCrate
+    - GreenMagBoots
+  rewardsToOffer: 3
+
+
+- type: metaFactionLevel
+  id: Green3
+  name: Officer
+  rumorRewards:
+    - GreenUpgradeModule
+    - TradeGood
+  rewardsToOffer: 2
+
+- type: metaFactionLevel
+  id: Green4
+  name: Executive
+

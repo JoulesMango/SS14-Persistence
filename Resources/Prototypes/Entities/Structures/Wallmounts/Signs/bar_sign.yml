@@ -1,6 +1,6 @@
 ﻿- type: entity
   id: BaseBarSign
-  parent: [ BaseWallmountGlass, BaseWallmountMachine ]
+  parent: [ BaseWallmountGlass, BaseWallmountMachine, StructureHealthMachineWeak ]
   name: bar sign
   abstract: true
   components:
@@ -28,10 +28,8 @@
     thresholds:
     - trigger:
         !type:DamageTrigger
-        damage: 50
+        damage: 100
       behaviors:
-      - !type:DoActsBehavior
-        acts: [ "Destruction" ]
       - !type:PlaySoundBehavior
         sound:
           collection: MetalGlassBreak
@@ -332,6 +330,7 @@
   - type: BarSign
     current: EmpBarSign
 
+# Persistence start
 - type: entity
   parent: BaseBarSign
   id: BarSignpregluxuries
@@ -340,3 +339,15 @@
   components:
   - type: BarSign
     current: pregluxuries
+
+# Medical Signs
+- type: entity
+  parent: BaseBarSign
+  id: BarSignnosmoking
+  name: no smoking
+  description: You should quit smoking as well while you're at it.
+  components:
+  - type: BarSign
+    current: nosmoking
+
+#Persistence end

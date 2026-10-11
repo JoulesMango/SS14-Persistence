@@ -227,6 +227,11 @@
   id: HotplateMachineCircuitboard
   result: HotplateMachineCircuitboard
 
+- type: latheRecipe # Persistence
+  parent: [ BaseCircuitboardRecipe, BaseMedicalMachineRecipeCategory ]
+  id: ColdplateMachineCircuitboard
+  result: ColdplateMachineCircuitboard
+
 - type: latheRecipe
   parent: [ BaseCircuitboardRecipe, BaseMedicalMachineRecipeCategory ]
   id: ElectrolysisUnitMachineCircuitboard
@@ -286,6 +291,12 @@
   id: ArtifactCrusherMachineCircuitboard
   result: ArtifactCrusherMachineCircuitboard
   unlockUses: 2
+
+# Teleportation
+- type: latheRecipe
+  parent: [ BaseGoldCircuitboardRecipe, BaseResearchMachineRecipeCategory ]
+  id: StationTeleporterMachineCircuitboard
+  result: StationTeleporterMachineCircuitboard
 
 # Anomaly
 - type: latheRecipe
@@ -564,8 +575,8 @@
 
 - type: latheRecipe
   parent: [ BaseCircuitboardRecipe, BaseEngineeringMachineRecipeCategory ]
-  id: TelecomServer1kCircuitboard
-  result: TelecomServer1kCircuitboard
+  id: TelecomServerAdvancedCircuitboard
+  result: TelecomServerAdvancedCircuitboard
   unlockUses: 1
 
 - type: latheRecipe

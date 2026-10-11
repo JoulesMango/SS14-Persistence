@@ -1,13 +1,14 @@
 using Content.Shared.Destructible.Thresholds;
 using Robust.Shared.Audio;
 using Robust.Shared.GameStates;
+using Robust.Shared.Prototypes;
 
 namespace Content.Shared.Xenoarchaeology.Artifact.Components;
 
 /// <summary>
 /// Stores metadata about a particular artifact node
 /// </summary>
-[RegisterComponent, NetworkedComponent, Access(typeof(SharedXenoArtifactSystem)), AutoGenerateComponentState]
+[RegisterComponent, NetworkedComponent, Access(typeof(SharedXenoArtifactSystem)), AutoGenerateComponentState, EntityCategory("XenoArtifactEffects")]
 public sealed partial class XenoArtifactNodeComponent : Component
 {
     /// <summary>
@@ -132,6 +133,25 @@ public sealed partial class XenoArtifactNodeComponent : Component
     /// </summary>
     [DataField, AutoNetworkedField]
     public int ConsumedResearchValue;
+
+    /// <summary>
+    /// Fraction (0-1) of this node's required triggers that artifexium filled in rather than being
+    /// triggered manually. 0 = unlocked normally. Drives the research penalty in UpdateNodeResearchValue.
+    /// </summary>
+    [DataField]
+    public float ArtifexiumUnlockFraction;
+
+    /// <summary>
+    /// Research reduction applied when this node was barely artifexium-assisted (fraction -> 0).
+    /// </summary>
+    [DataField]
+    public float ArtifexiumMinPenalty = 0.1f;
+
+    /// <summary>
+    /// Research reduction applied when this node was fully artifexium-unlocked (fraction = 1).
+    /// </summary>
+    [DataField]
+    public float ArtifexiumMaxPenalty = 0.5f;
     #endregion
 }
 

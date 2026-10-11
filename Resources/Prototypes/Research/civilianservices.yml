@@ -145,6 +145,7 @@
   - FauxTileAstroIce
   - FauxTileAstroSnow
   - FauxTileAstroAsteroidSand
+  - FauxTileAstroAsteroidSandBorderless
   - FauxTileDesertAstroSand
   - FauxTileAstroIronsand
   - FauxTileAstroIronsandBorderless
@@ -190,6 +191,8 @@
   - AdvMopItem
   - MegaSprayBottle
   - BorgModuleAdvancedCleaning
+  - TrashBagHolding
+  - WashingMachineCircuitboard # Funky: Footprints & Stains
 
 - type: technology
   id: HONKMech
@@ -288,5 +291,5 @@
   tier: 3
   cost: 100000
   recipeUnlocks:
-  - TelecomServer1kCircuitboard
+  - TelecomServerAdvancedCircuitboard
   - HolopadLongRangeMachineCircuitboard

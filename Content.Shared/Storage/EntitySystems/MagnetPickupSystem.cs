@@ -1,4 +1,6 @@
+using Content.Shared.Hands.EntitySystems;
 using Content.Shared.Inventory;
+using Content.Shared.Item.ItemToggle.Components; // Persistence: add for construction bag
 using Content.Shared.Storage.Components;
 using Content.Shared.Whitelist;
 using Robust.Shared.Physics.Components;
@@ -9,27 +11,40 @@ namespace Content.Shared.Storage.EntitySystems;
 /// <summary>
 /// <see cref="MagnetPickupComponent"/>
 /// </summary>
-public sealed class MagnetPickupSystem : EntitySystem
+public sealed partial class MagnetPickupSystem : EntitySystem
 {
-    [Dependency] private readonly IGameTiming _timing = default!;
-    [Dependency] private readonly EntityLookupSystem _lookup = default!;
-    [Dependency] private readonly InventorySystem _inventory = default!;
-    [Dependency] private readonly SharedTransformSystem _transform = default!;
-    [Dependency] private readonly SharedStorageSystem _storage = default!;
-    [Dependency] private readonly EntityWhitelistSystem _whitelistSystem = default!;
+    [Dependency] private IGameTiming _timing = default!;
+    [Dependency] private EntityLookupSystem _lookup = default!;
+    [Dependency] private InventorySystem _inventory = default!;
+    [Dependency] private SharedTransformSystem _transform = default!;
+    [Dependency] private SharedStorageSystem _storage = default!;
+    [Dependency] private EntityWhitelistSystem _whitelistSystem = default!;
+    [Dependency] private SharedHandsSystem _hands = default!;
 
+    [Dependency] private EntityQuery<PhysicsComponent> _physicsQuery = default!;
 
     private static readonly TimeSpan ScanDelay = TimeSpan.FromSeconds(1);
 
-    private EntityQuery<PhysicsComponent> _physicsQuery;
+    /// <summary>
+    /// Reused list of nearby pickup candidates so we can sort them deterministically without allocating every scan.
+    /// </summary>
+    private readonly List<EntityUid> _nearby = [];
+
 
     public override void Initialize()
     {
         base.Initialize();
-        _physicsQuery = GetEntityQuery<PhysicsComponent>();
         SubscribeLocalEvent<MagnetPickupComponent, MapInitEvent>(OnMagnetMapInit);
+        SubscribeLocalEvent<MagnetPickupComponent, ItemToggledEvent>(OnMagnetToggled); // Persistence: add for construction bag
     }
 
+// Persistence: add for construction bag
+    private void OnMagnetToggled(
+        Entity<MagnetPickupComponent> entity, ref ItemToggledEvent args)
+    {
+        entity.Comp.Active = args.Activated;
+        Dirty(entity);
+    } 
     private void OnMagnetMapInit(EntityUid uid, MagnetPickupComponent component, MapInitEvent args)
     {
         component.NextScan = _timing.CurTime;
@@ -43,28 +58,42 @@ public sealed class MagnetPickupSystem : EntitySystem
 
         while (query.MoveNext(out var uid, out var comp, out var storage, out var xform, out var meta))
         {
+            // Persistence: add for Construction
+            if (!comp.Active)
+                continue; 
+
             if (comp.NextScan > currentTime)
                 continue;
 
             comp.NextScan += ScanDelay;
             Dirty(uid, comp);
 
-            if (!_inventory.TryGetContainingSlot((uid, xform, meta), out var slotDef))
+            var parentUid = xform.ParentUid;
+
+            if (comp.RequireActiveHand && (!_hands.TryGetActiveItem(parentUid, out var activeItem) || activeItem != uid))
                 continue;
 
-            if ((slotDef.SlotFlags & comp.SlotFlags) == 0x0)
-                continue;
+            if (comp.SlotFlags != null)
+            {
+                if (!_inventory.TryGetContainingSlot((uid, xform, meta), out var slotDef))
+                    continue;
+
+                if ((slotDef.SlotFlags & comp.SlotFlags) == 0x0)
+                    continue;
+            }
 
             // No space
             if (!_storage.HasSpace((uid, storage)))
                 continue;
 
-            var parentUid = xform.ParentUid;
             var playedSound = false;
             var finalCoords = xform.Coordinates;
             var moverCoords = _transform.GetMoverCoordinates(uid, xform);
+            _nearby.Clear();
+            _nearby.AddRange(_lookup.GetEntitiesInRange(uid, comp.Range, LookupFlags.Dynamic | LookupFlags.Sundries));
+            _nearby.Sort((a, b) => GetNetEntity(a).CompareTo(GetNetEntity(b)));
 
-            foreach (var near in _lookup.GetEntitiesInRange(uid, comp.Range, LookupFlags.Dynamic | LookupFlags.Sundries))
+            foreach (var near in _nearby)
             {
                 if (_whitelistSystem.IsWhitelistFail(storage.Whitelist, near))
                     continue;
@@ -83,14 +112,14 @@ public sealed class MagnetPickupSystem : EntitySystem
                 var nearMap = _transform.GetMapCoordinates(near, xform: nearXform);
                 var nearCoords = _transform.ToCoordinates(moverCoords.EntityId, nearMap);
 
-                if (!_storage.Insert(uid, near, out var stacked, storageComp: storage, playSound: !playedSound))
+                if (!_storage.Insert(uid, near, out var stacked, user: parentUid, storageComp: storage, playSound: !playedSound))
                     continue;
 
                 // Play pickup animation for either the stack entity or the original entity.
                 if (stacked != null)
-                    _storage.PlayPickupAnimation(stacked.Value, nearCoords, finalCoords, nearXform.LocalRotation);
+                    _storage.PlayPickupAnimation(stacked.Value, nearCoords, finalCoords, nearXform.LocalRotation, parentUid);
                 else
-                    _storage.PlayPickupAnimation(near, nearCoords, finalCoords, nearXform.LocalRotation);
+                    _storage.PlayPickupAnimation(near, nearCoords, finalCoords, nearXform.LocalRotation, parentUid);
 
                 playedSound = true;
             }

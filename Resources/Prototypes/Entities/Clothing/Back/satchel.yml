@@ -14,6 +14,11 @@
   - type: PhysicalComposition
     materialComposition:
       Cloth: 300
+  # Persistence14: scurrets can wear satchels
+  - type: Tag
+    tags:
+    - ScurretWearable
+  # End Persistence14
 
 - type: entity
   parent: ClothingBackpackSatchel
@@ -184,7 +189,7 @@
     storageInsertSound: null
 
 - type: entity
-  parent: ClothingBackpackSatchel
+  parent: ClothingBackpackHoldingBase #Standardized Bluespace Bags
   id: ClothingBackpackSatchelHolding
   name: satchel of holding
   description: A satchel that opens into a localized pocket of bluespace.
@@ -219,3 +224,7 @@
   components:
   - type: ExplosionResistance
     damageCoefficient: 0
+  - type: Storage
+    maxItemSize: Colossal # Can hold ANYTHING
+    grid:
+    - 0,0,19,9

@@ -1,0 +1,34 @@
+- type: metaFaction
+  id: Zenith
+  name: The Solar Legion
+  description: "The Solar Legion controls the Zenith Universe."
+  rumors:
+    - DrinkBasicFriendly
+    - EatBasicFriendly
+    - PrayBasicFriendly
+  color: Red
+  levels:
+    Zenith2: 150
+    Zenith3: 500
+    Zenith4: 1000
+
+- type: metaFactionLevel
+  id: Zenith2
+  name: Associate
+  rumorRewards:
+    - ZenithUpgradeModule
+    - TradeGood
+  rewardsToOffer: 1
+
+- type: metaFactionLevel
+  id: Zenith3
+  name: Officer
+  rumorRewards:
+    - ZenithUpgradeModule
+    - TradeGood
+  rewardsToOffer: 2
+
+- type: metaFactionLevel
+  id: Zenith4
+  name: Knight
+

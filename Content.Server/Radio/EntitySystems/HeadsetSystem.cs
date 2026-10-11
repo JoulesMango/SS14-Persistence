@@ -14,13 +14,13 @@ using Robust.Shared.Player;
 
 namespace Content.Server.Radio.EntitySystems;
 
-public sealed class HeadsetSystem : SharedHeadsetSystem
+public sealed partial class HeadsetSystem : SharedHeadsetSystem
 {
-    [Dependency] private readonly INetManager _netMan = default!;
-    [Dependency] private readonly RadioSystem _radio = default!;
-    [Dependency] private readonly AccessReaderSystem _accessReader = default!;
-    [Dependency] private readonly StationSystem _station = default!;
-    [Dependency] private readonly UserInterfaceSystem _userInterface = default!;
+    [Dependency] private INetManager _netMan = default!;
+    [Dependency] private RadioSystem _radio = default!;
+    [Dependency] private AccessReaderSystem _accessReader = default!;
+    [Dependency] private StationSystem _station = default!;
+    [Dependency] private UserInterfaceSystem _userInterface = default!;
 
     public override void Initialize()
     {
@@ -142,7 +142,7 @@ public sealed class HeadsetSystem : SharedHeadsetSystem
             {
                 if (!args.Channel.Encrypted && headsetComp.TransmitTo == 0)
                 {
-                    _radio.SendRadioMessage(uid, args.Message, args.Channel, component.Headset);
+                    _radio.SendRadioMessage(uid, args.Message, args.Channel, component.Headset, transmitterRange: headsetComp.MaxBroadcastRange);
                     args.Channel = null; // prevent duplicate messages from other listeners.
                     return;
                 }
@@ -154,7 +154,7 @@ public sealed class HeadsetSystem : SharedHeadsetSystem
                     {
                         if (HasChannelAccess(args.Source, faction.Value, args.Channel))
                         {
-                            _radio.SendRadioMessage(uid, args.Message, args.Channel, component.Headset);
+                            _radio.SendRadioMessage(uid, args.Message, args.Channel, component.Headset, transmitterRange: headsetComp.MaxBroadcastRange);
                             args.Channel = null; // prevent duplicate messages from other listeners.
                             return;
                         }
@@ -171,7 +171,7 @@ public sealed class HeadsetSystem : SharedHeadsetSystem
         base.OnGotEquipped(uid, component, args);
         if (component.IsEquipped && component.Enabled)
         {
-            EnsureComp<WearingHeadsetComponent>(args.Equipee).Headset = uid;
+            EnsureComp<WearingHeadsetComponent>(args.EquipTarget).Headset = uid;
             UpdateRadioChannels(uid, component);
         }
     }
@@ -180,7 +180,7 @@ public sealed class HeadsetSystem : SharedHeadsetSystem
     {
         base.OnGotUnequipped(uid, component, args);
         RemComp<ActiveRadioComponent>(uid);
-        RemComp<WearingHeadsetComponent>(args.Equipee);
+        RemComp<WearingHeadsetComponent>(args.EquipTarget);
     }
 
     public void SetEnabled(EntityUid uid, bool value, HeadsetComponent? component = null)

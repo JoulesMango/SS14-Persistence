@@ -1,8 +1,9 @@
+using System.Text;
 using Content.Shared.CrewAssignments.Prototypes;
 using Content.Shared.Radio;
+using Content.Shared.Roles;
 using Robust.Shared.GameStates;
 using Robust.Shared.Prototypes;
-using System.Text;
 
 namespace Content.Shared.Station.Components;
 
@@ -25,6 +26,12 @@ public sealed partial class StationDataComponent : Component
     public StationConfig? StationConfig;
 
     /// <summary>
+    /// The map-specific profile used to order jobs on this station.
+    /// </summary>
+    [DataField, AutoNetworkedField]
+    public ProtoId<JobWeightPrototype>? JobWeights;
+
+    /// <summary>
     /// List of all grids this station is part of.
     /// </summary>
     [DataField, AutoNetworkedField]
@@ -43,18 +50,16 @@ public sealed partial class StationDataComponent : Component
 
     [DataField, AutoNetworkedField]
     public int ImportTax = 0;
-
     [DataField, AutoNetworkedField]
     public int ExportTax = 0;
-
     [DataField, AutoNetworkedField]
     public int SalesTax = 0;
-
     [DataField]
     public bool JobNetEnabled = true;
-
     [DataField]
     public ProtoId<FactionLevelPrototype> Level = "FactionLevel1";
+    [DataField]
+    public int StoredResonance = 0;
 
     [DataField]
     public Dictionary<ProtoId<RadioChannelPrototype>, FactionRadioData> RadioData = new()

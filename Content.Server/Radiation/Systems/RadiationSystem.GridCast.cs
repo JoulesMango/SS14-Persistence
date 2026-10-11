@@ -1,3 +1,4 @@
+using System.Numerics;
 using Content.Server.Radiation.Components;
 using Content.Server.Radiation.Events;
 using Content.Shared.Radiation.Components;
@@ -6,7 +7,6 @@ using Robust.Shared.Collections;
 using Robust.Shared.Map.Components;
 using Robust.Shared.Timing;
 using Robust.Shared.Utility;
-using System.Numerics;
 
 namespace Content.Server.Radiation.Systems;
 
@@ -43,9 +43,6 @@ public partial class RadiationSystem
         while (sources.MoveNext(out var uid, out var source, out var xform))
         {
             if (!source.Enabled)
-                continue;
-
-            if (!ShouldProcessSourceThisTick(uid, source))
                 continue;
 
             var worldPos = _transform.GetWorldPosition(xform);
@@ -117,9 +114,11 @@ public partial class RadiationSystem
             // if no radiation rays reached target, that will set it to 0
             receiver.Comp.CurrentRadiation = rads;
 
-            // also send an event with combination of total rad
-            if (rads > 0)
-                IrradiateEntity(receiver, rads, GridcastUpdateRate);
+            if (rads <= 0)
+                continue;
+
+            IrradiateEntity(receiver, rads, GridcastUpdateRate);
+            IncreaseSourceIntensity(receiver.Owner, rads, GridcastUpdateRate);
         }
 
         // raise broadcast event that radiation system has updated
@@ -132,7 +131,7 @@ public partial class RadiationSystem
         if (interval <= 0f || interval <= GridcastUpdateRate)
             return true;
 
-        var now = (float) _timing.CurTime.TotalSeconds;
+        var now = (float)_timing.CurTime.TotalSeconds;
 
         if (!source.UpdateScheduleInitialized)
         {
@@ -140,7 +139,7 @@ public partial class RadiationSystem
 
             if (source.StaggerUpdates)
             {
-                var phase = (uint) uid.Id % 1024u;
+                var phase = (uint)uid.Id % 1024u;
                 var offset = interval * (phase / 1024f);
                 source.NextUpdateTime = now + offset;
             }
@@ -165,6 +164,10 @@ public partial class RadiationSystem
     {
         // lets first check that source and destination on the same map
         if (source.Transform.MapID != destTrs.MapID)
+            return null;
+
+        // Persistence14 - Prevents entities from irradiating themself.
+        if (source.Entity.Owner == destUid)
             return null;
 
         var mapId = destTrs.MapID;
@@ -207,7 +210,7 @@ public partial class RadiationSystem
         // Avoids having to do a lookup per source*receiver.
         var box = Box2.FromTwoPoints(source.WorldPosition, destWorld);
         _grids.Clear();
-        _mapManager.FindGridsIntersecting(mapId, box, ref _grids, true);
+        _maps.FindGridsIntersecting(mapId, box, ref _grids, true);
 
         // gridcast through each grid and try to hit some radiation blockers
         // the ray will be updated with each grid that has some blockers
