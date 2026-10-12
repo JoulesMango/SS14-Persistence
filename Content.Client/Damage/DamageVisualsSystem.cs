@@ -331,6 +331,7 @@ public sealed partial class DamageVisualsSystem : VisualizerSystem<DamageVisuals
     {
         if (!Resolve(spriteEnt, ref spriteEnt.Comp))
             return;
+        index ??= spriteEnt.Comp.AllLayers.Count();
 
         var newLayer = SpriteSystem.AddLayer(
             spriteEnt,
