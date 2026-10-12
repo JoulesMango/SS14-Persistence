@@ -57,26 +57,20 @@
   id: BaseWall
   components:
   - type: Occluder # Breaks on diagonal walls
+# PERSI change START
   - type: Appearance # Damage visuals for normal walls
-
-# made it a separate entity, asteroids use BaseWall as parent
-- type: entity
-  abstract: true
-  parent: BaseWall
-  id: 
-  components:
   - type: ExaminableDamage
     messages: WindowMessages
   - type: Repairable
-    qualityNeeded: Anchoring
-    doAfterDelay: 2
-    damageValue: -10
+    fuelCost: 15
+    doAfterDelay: 8
   - type: DamageVisuals # Diagonal walls need a diff texture for the damagevisuals
     thresholds: [5, 10, 20, 30, 40, 50, 60]
     damageDivisor: 3
     trackAllDamage: true
     damageOverlay:
       sprite: _Persistence14/Structures/walls/wall_damage.rsi
+# PERSI change END
   - type: PlacementReplacement
     key: walls
   - type: StructureAlignerPylon
@@ -156,7 +150,7 @@
     base: brick
 
 - type: entity
-  parent: DamageWall
+  parent: BaseWall
   id: WallBronze
   name: bronze wall
   components:
@@ -199,7 +193,7 @@
     base: solidbronze
 
 - type: entity
-  parent: DamageWall
+  parent: BaseWall
   id: WallClock
   name: clock wall
   components:
@@ -228,7 +222,7 @@
     base: clock
 
 - type: entity
-  parent: DamageWall
+  parent: [ BaseWall, StructureHealthWall ]
   id: WallClown
   name: bananium wall
   components:
@@ -243,6 +237,8 @@
     cost: 6
     delay: 8
     fx: EffectRCDDeconstruct8
+  - type: Damageable
+    damageModifierSet: PlasteelMod
   - type: Destructible
     thresholds:
     - trigger: *DamageWallWeak
@@ -267,7 +263,7 @@
         - FullTileMask
         layer:
         - WallLayer
-        density: 8000 # really good ramming wall, bananium is rare so it's probably fine
+        density: 4000 # really good ramming wall, bananium is rare so it's probably fine
 
 - type: entity
   parent: [ BaseWall, StructureHealthWallWeak ]
@@ -305,7 +301,7 @@
     base: meat
 
 - type: entity
-  parent: DamageWall
+  parent: BaseWall
   id: WallCult
   name: cult wall
   components:
@@ -352,7 +348,7 @@
     base: debug
 
 - type: entity
-  parent: DamageWall
+  parent: BaseWall
   id: WallDiamond
   name: diamond wall
   components:
@@ -424,7 +420,7 @@
     base: gold
 
 - type: entity
-  parent: DamageWall
+  parent: BaseWall
   id: WallIce
   name: ice wall
   components:
@@ -483,7 +479,7 @@
     resistance: 5
 
 - type: entity
-  parent: DamageWall
+  parent: [ BaseWall, StructureHealthWallWeak ]
   id: WallPlastic
   name: plastic wall
   components:
@@ -508,14 +504,25 @@
       - *SoundMetalSlam
       - !type:SpawnEntitiesBehavior
         spawn:
-          SheetPlasma1: *BaseWallSpawn
+          SheetPlastic1: *BaseWallSpawn
+  - type: Fixtures
+    fixtures:
+      fix1:
+        shape:
+          !type:PhysShapeAabb
+          bounds: "-0.5,-0.5,0.5,0.5"
+        mask:
+        - FullTileMask
+        layer:
+        - WallLayer
+        density: 500
   - type: IconSmooth
     key: walls
     base: plastic
 
 
 - type: entity
-  parent: DamageWall
+  parent: BaseWall
   id: WallPlastitaniumIndestructible
   name: plastitanium wall
   suffix: indestructible
@@ -794,7 +801,7 @@
     price: 150
 
 - type: entity
-  parent: DamageWall
+  parent: BaseWall
   id: WallSandstone
   name: sandstone wall
   components:
@@ -821,7 +828,7 @@
         acts: [ "Destruction" ]
   - type: IconSmooth
     key: walls
-    base: wall
+    base: sandstone
   - type: Fixtures
     fixtures:
       fix1:
@@ -1269,7 +1276,7 @@
 # Lavalend Walls
 
 - type: entity
-  parent: DamageWall
+  parent: BaseWall
   id: WallNecropolis
   name: stone wall
   components:
@@ -1347,7 +1354,7 @@
 # Vault Walls
 
 - type: entity
-  parent: DamageWall
+  parent: BaseWall
   id: WallVaultAlien
   name: alien vault wall
   description: A mysterious ornate looking wall. There may be ancient dangers inside.
