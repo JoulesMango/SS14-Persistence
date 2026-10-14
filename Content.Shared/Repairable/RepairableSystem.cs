@@ -50,11 +50,12 @@ public sealed partial class RepairableSystem : EntitySystem
 
         if (!args.Repeat)
         {
+            var str = Loc.GetString("comp-repairable-repair", ("target", ent.Owner), ("tool", args.Used!));
+            _popup.PopupEntity(str, ent.Owner, args.User);
+
             var ev = new RepairedEvent(ent, args.User);
             RaiseLocalEvent(ent.Owner, ref ev);
         }
-        var str = Loc.GetString("comp-repairable-repair", ("target", ent.Owner), ("tool", args.Used!));
-        _popup.PopupClient(str, ent.Owner, args.User);
     }
 
     /// <summary>
