@@ -153,24 +153,37 @@ public abstract partial class SharedGasCanisterSystem : GasMaxPressureSystem<Gas
 
     protected void UpdateAppearance(Entity<GasCanisterComponent> entity)
     {
+        var maxPressure = Atmospherics.MaxOutputPressure * 2;
         if (!TryComp<AppearanceComponent>(entity, out var appearance))
             return;
 
-        if (entity.Comp.Air.Pressure < 10)
+        if (entity.Comp.Air.Pressure < maxPressure * 0.04)
         {
             _appearance.SetData(entity, GasCanisterVisuals.PressureState, 0, appearance);
         }
-        else if (entity.Comp.Air.Pressure < Atmospherics.OneAtmosphere)
+        else if (entity.Comp.Air.Pressure < maxPressure * 0.16)
         {
             _appearance.SetData(entity, GasCanisterVisuals.PressureState, 1, appearance);
         }
-        else if (entity.Comp.Air.Pressure < (15 * Atmospherics.OneAtmosphere))
+        else if (entity.Comp.Air.Pressure < maxPressure * 0.32)
         {
             _appearance.SetData(entity, GasCanisterVisuals.PressureState, 2, appearance);
         }
-        else
+        else if (entity.Comp.Air.Pressure < maxPressure * 0.5)
         {
             _appearance.SetData(entity, GasCanisterVisuals.PressureState, 3, appearance);
+        }
+        else if (entity.Comp.Air.Pressure < maxPressure * 0.75)
+        {
+            _appearance.SetData(entity, GasCanisterVisuals.PressureState, 4, appearance);
+        }
+        else if (entity.Comp.Air.Pressure < maxPressure)
+        {
+            _appearance.SetData(entity, GasCanisterVisuals.PressureState, 5, appearance);
+        }
+        else
+        {
+            _appearance.SetData(entity, GasCanisterVisuals.PressureState, 6, appearance);
         }
     }
 }

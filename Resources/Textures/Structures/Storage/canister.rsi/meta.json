@@ -1,7 +1,7 @@
 {
     "version": 1,
     "license": "CC-BY-SA-3.0",
-    "copyright": "Frezon canister modified from tgstation, the rest are taken from tgstation at commit https://github.com/tgstation/tgstation/commit/f8581a636acfc1517611a680b7711a74fc7ef335. Paper Sprites by Vermidia.",
+    "copyright": "Frezon canister modified from tgstation, the rest are taken from tgstation at commit https://github.com/tgstation/tgstation/commit/f8581a636acfc1517611a680b7711a74fc7ef335. Paper Sprites by Vermidia. indicator lights modified by JoulesMango(Github) for PERSISTENCE 14",
     "size": {
         "x": 32,
         "y": 32
@@ -51,6 +51,21 @@
         },
         {
             "name": "can-o3"
+        },
+        {
+            "name": "can-o4"
+        },
+        {
+            "name": "can-o5"
+        },
+        {
+            "name": "can-o6",
+            "delays": [
+                [
+                    0.2,
+                    0.2
+                ]
+            ]
         },
         {
             "name": "can-oa1"
