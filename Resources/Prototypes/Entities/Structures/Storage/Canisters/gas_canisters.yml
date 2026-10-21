@@ -41,13 +41,15 @@
           True: { state: unlocked, visible: false }
       enum.GasCanisterVisuals.PressureState:
         pressureLight:
-          0: { state: can-o0, shader: "unshaded" }
-          1: { state: can-o1, shader: "unshaded" }
-          2: { state: can-o2, shader: "unshaded" }
-          3: { state: can-o3, shader: "unshaded" }
-          4: { state: can-o4, shader: "unshaded" }
-          5: { state: can-o5, shader: "unshaded" }
-          6: { state: can-o6, shader: "unshaded" }
+          0: { state: can-o0, visible: false}
+          1: { state: can-o0, shader: "unshaded", visible: true }
+          2: { state: can-o1, shader: "unshaded", visible: true }
+          3: { state: can-o2, shader: "unshaded", visible: true }
+          4: { state: can-o3, shader: "unshaded", visible: true }
+          5: { state: can-o4, shader: "unshaded", visible: true }
+          6: { state: can-o5, shader: "unshaded", visible: true }
+          7: { state: can-o6, shader: "unshaded", visible: true }
+          8: { state: can-o7, shader: "unshaded", visible: true }
       enum.PaperLabelVisuals.HasLabel:
         enum.PaperLabelVisuals.Layer:
           True: { visible: true }

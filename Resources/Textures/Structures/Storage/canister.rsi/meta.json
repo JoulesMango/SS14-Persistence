@@ -29,9 +29,6 @@
             "name": "can-connector"
         },
         {
-            "name": "locked"
-        },
-        {
             "name": "unlocked"
         },
         {
@@ -59,7 +56,10 @@
             "name": "can-o5"
         },
         {
-            "name": "can-o6",
+            "name": "can-o6"
+        },
+        {
+            "name": "can-o7",
             "delays": [
                 [
                     0.2,

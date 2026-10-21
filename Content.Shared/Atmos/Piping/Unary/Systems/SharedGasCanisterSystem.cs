@@ -157,33 +157,41 @@ public abstract partial class SharedGasCanisterSystem : GasMaxPressureSystem<Gas
         if (!TryComp<AppearanceComponent>(entity, out var appearance))
             return;
 
-        if (entity.Comp.Air.Pressure < maxPressure * 0.04)
+        if (entity.Comp.Air.Pressure < 0.1)
         {
             _appearance.SetData(entity, GasCanisterVisuals.PressureState, 0, appearance);
         }
-        else if (entity.Comp.Air.Pressure < maxPressure * 0.16)
+        else if (entity.Comp.Air.Pressure < maxPressure * 0.08)
         {
             _appearance.SetData(entity, GasCanisterVisuals.PressureState, 1, appearance);
         }
-        else if (entity.Comp.Air.Pressure < maxPressure * 0.32)
+        else if (entity.Comp.Air.Pressure < maxPressure * 0.16)
         {
             _appearance.SetData(entity, GasCanisterVisuals.PressureState, 2, appearance);
         }
-        else if (entity.Comp.Air.Pressure < maxPressure * 0.5)
+        else if (entity.Comp.Air.Pressure < maxPressure * 0.32)
         {
             _appearance.SetData(entity, GasCanisterVisuals.PressureState, 3, appearance);
         }
-        else if (entity.Comp.Air.Pressure < maxPressure * 0.75)
+        else if (entity.Comp.Air.Pressure < maxPressure * 0.64)
         {
             _appearance.SetData(entity, GasCanisterVisuals.PressureState, 4, appearance);
         }
-        else if (entity.Comp.Air.Pressure < maxPressure)
+        else if (entity.Comp.Air.Pressure < maxPressure * 0.8)
         {
             _appearance.SetData(entity, GasCanisterVisuals.PressureState, 5, appearance);
         }
-        else
+        else if (entity.Comp.Air.Pressure < maxPressure * 0.9)
         {
             _appearance.SetData(entity, GasCanisterVisuals.PressureState, 6, appearance);
+        }
+        else if (entity.Comp.Air.Pressure < maxPressure)
+        {
+            _appearance.SetData(entity, GasCanisterVisuals.PressureState, 7, appearance);
+        }
+        else
+        {
+            _appearance.SetData(entity, GasCanisterVisuals.PressureState, 8, appearance);
         }
     }
 }
