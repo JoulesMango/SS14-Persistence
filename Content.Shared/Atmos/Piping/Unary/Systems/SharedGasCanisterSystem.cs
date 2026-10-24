@@ -153,45 +153,29 @@ public abstract partial class SharedGasCanisterSystem : GasMaxPressureSystem<Gas
 
     protected void UpdateAppearance(Entity<GasCanisterComponent> entity)
     {
-        var maxPressure = Atmospherics.MaxOutputPressure * 2;
         if (!TryComp<AppearanceComponent>(entity, out var appearance))
             return;
 
-        if (entity.Comp.Air.Pressure < 0.1)
+        var maxPressure = Atmospherics.MaxOutputPressure * 2;
+        float[] thresholds = [0.1f, 0.8f, 0.16f, 0.32f, 0.64f, 0.8f, 0.9f, 1.0f];
+
+        for (var index = 0; index < thresholds.Length; index++)
         {
-            _appearance.SetData(entity, GasCanisterVisuals.PressureState, 0, appearance);
+            if (entity.Comp.Air.Pressure < maxPressure * thresholds[index])
+            {
+                _appearance.SetData(entity, GasCanisterVisuals.PressureState, index, appearance);
+                break;
+            }
         }
-        else if (entity.Comp.Air.Pressure < maxPressure * 0.08)
+
+        float[] tempThresholds = [100, 150, 200, 350];
+        for (var index = 0; index < tempThresholds.Length; index++)
         {
-            _appearance.SetData(entity, GasCanisterVisuals.PressureState, 1, appearance);
-        }
-        else if (entity.Comp.Air.Pressure < maxPressure * 0.16)
-        {
-            _appearance.SetData(entity, GasCanisterVisuals.PressureState, 2, appearance);
-        }
-        else if (entity.Comp.Air.Pressure < maxPressure * 0.32)
-        {
-            _appearance.SetData(entity, GasCanisterVisuals.PressureState, 3, appearance);
-        }
-        else if (entity.Comp.Air.Pressure < maxPressure * 0.64)
-        {
-            _appearance.SetData(entity, GasCanisterVisuals.PressureState, 4, appearance);
-        }
-        else if (entity.Comp.Air.Pressure < maxPressure * 0.8)
-        {
-            _appearance.SetData(entity, GasCanisterVisuals.PressureState, 5, appearance);
-        }
-        else if (entity.Comp.Air.Pressure < maxPressure * 0.9)
-        {
-            _appearance.SetData(entity, GasCanisterVisuals.PressureState, 6, appearance);
-        }
-        else if (entity.Comp.Air.Pressure < maxPressure)
-        {
-            _appearance.SetData(entity, GasCanisterVisuals.PressureState, 7, appearance);
-        }
-        else
-        {
-            _appearance.SetData(entity, GasCanisterVisuals.PressureState, 8, appearance);
+            if (entity.Comp.Air.Temperature < tempThresholds[index])
+            {
+                _appearance.SetData(entity, GasCanisterVisuals.TemperatureState, index, appearance);
+                return;
+            }
         }
     }
 }
