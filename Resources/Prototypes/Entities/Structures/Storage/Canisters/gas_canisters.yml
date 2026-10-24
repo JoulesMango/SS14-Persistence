@@ -27,6 +27,9 @@
     - state: can-t0
       map: [ "temperatureOverlay" ]
       visible: false
+    - state: can-connector
+      map: [ "connectedToPort" ]
+      visible: false
   - type: Appearance
   - type: GenericVisualizer
     visuals:
@@ -61,7 +64,6 @@
           2: { state: can-t2}
           3: { state: can-t3}
           4: { state: can-t3, visible: false}
-
           #Persi end
       enum.PaperLabelVisuals.HasLabel:
         enum.PaperLabelVisuals.Layer:
