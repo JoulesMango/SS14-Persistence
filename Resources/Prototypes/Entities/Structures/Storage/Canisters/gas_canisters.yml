@@ -33,6 +33,19 @@
   - type: Appearance
   - type: GenericVisualizer
     visuals:
+      enum.GasCanisterVisuals.TemperatureState:
+        temperatureOverlay:
+          0: { state: can-t0, visible: true}
+          1: { state: can-t1, visible: true}
+          2: { state: can-t2, visible: true}
+          3: { state: can-t3, visible: true}
+          4: { state: can-t3, visible: false}
+          5: { state: can-t4, visible: true}
+          6: { state: can-t5, visible: true}
+          7: { state: can-t6, visible: true}
+          8: { state: can-t7, visible: true}
+          9: { state: can-t8, visible: true}
+          10: { state: can-t9, visible: true}
       enum.AnchorVisuals.Anchored:
         connectedToPort:
           False: { state: can-connector, visible: false }
@@ -57,13 +70,6 @@
           6: { state: can-o5, shader: "unshaded", visible: true }
           7: { state: can-o6, shader: "unshaded", visible: true }
           8: { state: can-o7, shader: "unshaded", visible: true }
-      enum.GasCanisterVisuals.TemperatureState:
-        temperatureOverlay:
-          0: { state: can-t0}
-          1: { state: can-t1}
-          2: { state: can-t2}
-          3: { state: can-t3}
-          4: { state: can-t3, visible: false}
           #Persi end
       enum.PaperLabelVisuals.HasLabel:
         enum.PaperLabelVisuals.Layer:

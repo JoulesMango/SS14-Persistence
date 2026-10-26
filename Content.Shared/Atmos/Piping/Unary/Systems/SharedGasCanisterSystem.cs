@@ -168,7 +168,7 @@ public abstract partial class SharedGasCanisterSystem : GasMaxPressureSystem<Gas
             }
         }
 
-        float[] tempThresholds = [100, 150, 200, 268];
+        float[] tempThresholds = [100, 150, 200, 268, 600, 700, 800, 1000, 1200, 1300];
         for (var index = 0; index < tempThresholds.Length; index++)
         {
             if (entity.Comp.Air.Temperature < tempThresholds[index])
