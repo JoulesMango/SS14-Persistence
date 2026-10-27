@@ -157,7 +157,7 @@ public abstract partial class SharedGasCanisterSystem : GasMaxPressureSystem<Gas
             return;
 
         var maxPressure = Atmospherics.MaxOutputPressure * 2;
-        float[] thresholds = [0.01f, 0.08f, 0.16f, 0.32f, 0.64f, 0.8f, 0.9f, 1.0f];
+        float[] thresholds = [0.01f, 0.08f, 0.16f, 0.32f, 0.5f, 0.64f, 0.85f, 0.95f, 1.0f];
 
         for (var index = 0; index < thresholds.Length; index++)
         {
@@ -168,7 +168,10 @@ public abstract partial class SharedGasCanisterSystem : GasMaxPressureSystem<Gas
             }
         }
 
-        float[] tempThresholds = [100, 150, 200, 268, 600, 700, 800, 1000, 1200, 1300];
+        if (entity.Comp.Air.Pressure >= maxPressure * thresholds[^1])
+            _appearance.SetData(entity, GasCanisterVisuals.PressureState, thresholds.Length - 1, appearance);
+
+        float[] tempThresholds = [100, 150, 200, 268, 450, 650, 750, 900, 1100, 1300, 1600];
         for (var index = 0; index < tempThresholds.Length; index++)
         {
             if (entity.Comp.Air.Temperature < tempThresholds[index])
@@ -177,5 +180,7 @@ public abstract partial class SharedGasCanisterSystem : GasMaxPressureSystem<Gas
                 return;
             }
         }
+
+        _appearance.SetData(entity, GasCanisterVisuals.TemperatureState, tempThresholds.Length - 1, appearance);
     }
 }

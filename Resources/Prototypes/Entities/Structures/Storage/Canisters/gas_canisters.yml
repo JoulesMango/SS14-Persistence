@@ -27,6 +27,9 @@
     - state: can-t0
       map: [ "temperatureOverlay" ]
       visible: false
+    - state: unlocked
+      map: [ "locked"]
+      visible: false
     - state: can-connector
       map: [ "connectedToPort" ]
       visible: false
@@ -42,10 +45,14 @@
           4: { state: can-t3, visible: false}
           5: { state: can-t4, visible: true}
           6: { state: can-t5, visible: true}
-          7: { state: can-t6, visible: true}
-          8: { state: can-t7, visible: true}
-          9: { state: can-t8, visible: true}
-          10: { state: can-t9, visible: true}
+          7: { state: can-t6, visible: true, shader: unshaded}
+          8: { state: can-t7, visible: true, shader: unshaded}
+          9: { state: can-t8, visible: true, shader: unshaded}
+          10: { state: can-t9, visible: true, shader: unshaded}
+      enum.LockVisuals.Locked:
+        locked:
+          False: { state: unlocked, visible: true }
+          True: { state: unlocked, visible: false }
       enum.AnchorVisuals.Anchored:
         connectedToPort:
           False: { state: can-connector, visible: false }
@@ -54,10 +61,7 @@
         tankInserted:
           False: { state: can-open, visible: false }
           True: { state: can-open, visible: true }
-      enum.LockVisuals.Locked:
-        locked:
-          False: { state: unlocked, visible: true }
-          True: { state: unlocked, visible: false }
+
       enum.GasCanisterVisuals.PressureState:
         pressureLight:
           #persi start - More detailed pressure thresholds for the pressure indicator
@@ -465,8 +469,8 @@
     air:
       volume: 1500
       moles:
-        Oxygen: 2769.36 # oxygen
-      temperature: 293.15
+        Oxygen: 769.36 # oxygen
+      temperature: 1993.15
   - type: Destructible
     thresholds:
     - trigger: *DamageContainerStrong
