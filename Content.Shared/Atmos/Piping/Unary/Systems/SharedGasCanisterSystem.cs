@@ -155,7 +155,7 @@ public abstract partial class SharedGasCanisterSystem : GasMaxPressureSystem<Gas
     {
         if (!TryComp<AppearanceComponent>(entity, out var appearance))
             return;
-
+        // persi start
         var maxPressure = Atmospherics.MaxOutputPressure * 2;
         float[] thresholds = [0.01f, 0.08f, 0.16f, 0.32f, 0.5f, 0.64f, 0.85f, 0.95f, 1.0f];
 
@@ -182,5 +182,6 @@ public abstract partial class SharedGasCanisterSystem : GasMaxPressureSystem<Gas
         }
 
         _appearance.SetData(entity, GasCanisterVisuals.TemperatureState, tempThresholds.Length - 1, appearance);
+        //persi end
     }
 }

@@ -36,6 +36,30 @@
   - type: Appearance
   - type: GenericVisualizer
     visuals:
+      enum.AnchorVisuals.Anchored:
+        connectedToPort:
+          False: { state: can-connector, visible: false }
+          True: { state: can-connector, visible: true }
+      enum.GasCanisterVisuals.TankInserted:
+        tankInserted:
+          False: { state: can-open, visible: false }
+          True: { state: can-open, visible: true }
+      enum.LockVisuals.Locked:
+        locked:
+          False: { state: unlocked, visible: true }
+          True: { state: unlocked, visible: false }
+      enum.GasCanisterVisuals.PressureState:
+        pressureLight:
+          #persi start - More detailed pressure indicator & temp textures
+          0: { state: can-o0, visible: false}
+          1: { state: can-o0, shader: "unshaded", visible: true }
+          2: { state: can-o1, shader: "unshaded", visible: true }
+          3: { state: can-o2, shader: "unshaded", visible: true }
+          4: { state: can-o3, shader: "unshaded", visible: true }
+          5: { state: can-o4, shader: "unshaded", visible: true }
+          6: { state: can-o5, shader: "unshaded", visible: true }
+          7: { state: can-o6, shader: "unshaded", visible: true }
+          8: { state: can-o7, shader: "unshaded", visible: true }
       enum.GasCanisterVisuals.TemperatureState:
         temperatureOverlay:
           0: { state: can-t0, visible: true}
@@ -49,31 +73,6 @@
           8: { state: can-t7, visible: true, shader: unshaded}
           9: { state: can-t8, visible: true, shader: unshaded}
           10: { state: can-t9, visible: true, shader: unshaded}
-      enum.LockVisuals.Locked:
-        locked:
-          False: { state: unlocked, visible: true }
-          True: { state: unlocked, visible: false }
-      enum.AnchorVisuals.Anchored:
-        connectedToPort:
-          False: { state: can-connector, visible: false }
-          True: { state: can-connector, visible: true }
-      enum.GasCanisterVisuals.TankInserted:
-        tankInserted:
-          False: { state: can-open, visible: false }
-          True: { state: can-open, visible: true }
-
-      enum.GasCanisterVisuals.PressureState:
-        pressureLight:
-          #persi start - More detailed pressure thresholds for the pressure indicator
-          0: { state: can-o0, visible: false}
-          1: { state: can-o0, shader: "unshaded", visible: true }
-          2: { state: can-o1, shader: "unshaded", visible: true }
-          3: { state: can-o2, shader: "unshaded", visible: true }
-          4: { state: can-o3, shader: "unshaded", visible: true }
-          5: { state: can-o4, shader: "unshaded", visible: true }
-          6: { state: can-o5, shader: "unshaded", visible: true }
-          7: { state: can-o6, shader: "unshaded", visible: true }
-          8: { state: can-o7, shader: "unshaded", visible: true }
           #Persi end
       enum.PaperLabelVisuals.HasLabel:
         enum.PaperLabelVisuals.Layer:
