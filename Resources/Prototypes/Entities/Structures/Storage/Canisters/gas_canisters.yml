@@ -469,8 +469,8 @@
     air:
       volume: 1500
       moles:
-        Oxygen: 769.36 # oxygen
-      temperature: 1993.15
+        Oxygen: 2769.36 # oxygen
+      temperature: 293.15
   - type: Destructible
     thresholds:
     - trigger: *DamageContainerStrong
