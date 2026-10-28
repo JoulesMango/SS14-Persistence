@@ -22,7 +22,7 @@ namespace Content.Shared.Atmos.Piping.Binary.Components
     {
         PressureState,
         TankInserted,
-        TemperatureState
+        TemperatureState //added for canister temp persistence
     }
 
     #endregion
