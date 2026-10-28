@@ -21,9 +21,9 @@
       map: [ "enum.MaxPressureVisualLayers.BaseUnshaded" ]
       shader: unshaded
       visible: false
-    # Persi start - I had problems with layer ordering, so i had to explicitly assign them
     - state: mask-grey
       map: [ "enum.MaxPressureVisualLayers.Base" ]
+    # Persi start - I had problems with layer ordering, so i had to explicitly assign them
       visible: false
     - state: can-t0
       map: [ "temperatureOverlay" ]
