@@ -76,8 +76,6 @@
         Blunt: 5 #i mean... i GUESS you could use it like that
     soundHit:
       collection: MetalThud
-  - type: RefillableSolution
-    solution: welder
   - type: Tool
     useSound:
       collection: Welder
@@ -171,7 +169,7 @@
     radius: 1.5
     color: lightblue
   - type: Welder
-    fuelReagent: Plasma
+    fuelReagent: WeldingFuel
   - type: RequiresEyeProtection
     statusEffectTime: 5 # less harmful; sunglasses can block it
   - type: PhysicalComposition
@@ -186,14 +184,15 @@
   components:
   - type: Solution
     solution:
+      maxVol: 450 #persi adjustment
       reagents:
-      - ReagentId: Plasma
-        Quantity: 480 # Literally infinite so this number basically doesn't matter, also this should be a battery tbqh.
+      - ReagentId: WeldingFuel
+        Quantity: 450
   - type: SolutionRegeneration
     generated:
       reagents:
-      - ReagentId: Plasma
-        Quantity: 1
+      - ReagentId: WeldingFuel
+        Quantity: 0.1 #Persi adjustent
 
 - type: entity
   name: emergency welding tool
